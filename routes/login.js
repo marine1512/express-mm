@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router(); // Crée une instance de routeur
 const User = require('../models/User'); // Import du modèle utilisateur
 
-// Middleware spécifique (si nécessaire, sinon déléguez-le au fichier principal)
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
 // GET /login
 router.get('/login', (req, res) => {
     res.render('login');
