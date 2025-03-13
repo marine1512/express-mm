@@ -1,10 +1,10 @@
 const express = require('express');
-const router = express.Router();
-const User = require('../models/user'); // Import du modèle User
-const secretKey = "12345"; 
+const router = express.Router(); // Crée une instance de routeur
+const User = require('../models/User'); // Import du modèle utilisateur
 
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// Middleware spécifique (si nécessaire, sinon déléguez-le au fichier principal)
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 router.post("/login", async (req, res) => {
     try {
