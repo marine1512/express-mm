@@ -34,13 +34,11 @@ app.use(express.static(path.join(__dirname, "public"))); // Serveur de fichiers 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views")); // Chemin des fichiers EJS
 
-// Importation des routes
-const routes = require("./routes"); // Routes principales (par exemple : /about, /home, etc.)
-const registerRoutes = require("./routes/login.js"); // Routes spécifiques liées à l'inscription
+const routes = require("./routes"); // Cela va automatiquement charger routes/index.js
+const loginRoutes = require("./routes/login"); // Route de connexion (login.js)
 
-// Utilisation des routes
-app.use("/", routes); // Monte les routes sur "/"
-app.use("/register", registerRoutes); // Monte les routes sur "/register"
+app.use('/', routes);
+app.use("/login", loginRoutes);
 
 // Gestion des erreurs pour les routes inexistantes
 
@@ -49,9 +47,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res) => {
-  res.status(404).send({ success: false, message: "Route non trouvée" });
-});
 
 // Lancement du serveur
 const PORT = 3000;

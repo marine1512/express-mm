@@ -1,10 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router(); // Crée une instance de routeur
 
-// Exemple de route principale
 router.get('/', (req, res) => {
     res.render('login');
 });
 
-// Exporter le router pour l'utiliser dans server.js
+// Exporte le routeur
 module.exports = router;
