@@ -37,10 +37,4 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Route GET /protected (exemple d'authentification via middleware)
-router.get("/protected", authenticateToken, (req, res) => {
-  // Accessible uniquement si le JWT est authentifié
-  res.status(200).json({ message: "Vous avez accédé à une route protégée.", user: req.user });
-});
-
 module.exports = router;

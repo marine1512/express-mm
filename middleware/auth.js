@@ -1,22 +1,24 @@
 const jwt = require("jsonwebtoken");
 
-// Middleware de vérification du Token
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"]; // Headers de la requête
+const secretKey = "123456"; // Remplacez par votre clé secrète
 
-  // Vérifiez si un token est présent dans les headers
-  const token = authHeader && authHeader.split(" ")[1];
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"]; // Récupérer le header Authorization
+  const token = authHeader && authHeader.split(" ")[1]; // Obtenir le token après "Bearer "
+
   if (!token) {
-    return res.status(401).json({ error: "Accès interdit. Token manquant." });
+    return res.status(401).json({ error: "Token manquant. Accès interdit." });
   }
 
-  // Vérifiez la validité du token
-  jwt.verify(token, "123456", (err, user) => { // Remplacez "SECRET_KEY" par votre clé secrète réelle
+  // Vérifier le token
+  jwt.verify(token, secretKey, (err, user) => {
     if (err) {
       return res.status(403).json({ error: "Token invalide." });
     }
-    req.user = user; // Stocker les informations décryptées dans req.user
-    next(); // Passer à la route suivante
+
+    // Ajouter les informations utilisateur (du token) à la requête
+    req.user = user;
+    next(); // Passer au prochain middleware (ou à la route)
   });
 };
 
