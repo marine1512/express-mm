@@ -35,17 +35,16 @@ app.get("/test", (req, res) => {
 // Import des routes
 const routes = require("./routes/index"); // Routes principales dans routes/index.js
 const loginRoutes = require("./routes/login"); // Routes pour la connexion dans routes/login.js
-const homeRoutes = require("./routes/home"); 
 const authenticateToken = require("./middleware/auth");
 const protectedRoutes = require("./routes/protected");
+const catwaysRoutes = require('./routes/catways');
 
 
 // Utilisation des routes
 app.use("/", routes); // Routage principal
 app.use(loginRoutes); // Routage spécifique pour la connexion
-app.use("/home", homeRoutes);
-app.use(authenticateToken); // Applique à toutes les routes
-app.use('/', protectedRoutes);
+app.use('/protected', authenticateToken, protectedRoutes);
+app.use(catwaysRoutes);
 
 
 

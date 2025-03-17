@@ -1,13 +1,12 @@
-const express = require("express");
+const express = require('express');
+const verifyToken = require('../middleware/verifyToken'); // Middleware de vérification de token
+const authenticateToken = require('../middleware/auth'); // Middleware d'authentification
 const router = express.Router();
-const authenticateToken = require("../middleware/auth"); // Middleware pour valider le token
+const catways = require('./catways');
 
-// Route protégée, accessible uniquement avec un token valide
-router.get("/protected", authenticateToken, (req, res) => {
-  res.status(200).json({
-    message: "Bienvenue dans la route protégée !",
-    user: req.user, // Les données utilisateur extraites du token
-  });
+// Définir la route GET /protected
+router.get('/', authenticateToken, verifyToken, (req, res) => {
+  res.render('catways');
 });
 
 module.exports = router;
