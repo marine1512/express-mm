@@ -1,19 +1,24 @@
 const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
 
-// Schéma utilisateur
-const userSchema = new mongoose.Schema({
+// Définir le schéma utilisateur
+const UserSchema = new mongoose.Schema({
     username: {
-        type: String,
-        required: true,
-        trim: true
+      type: String,
+      required: true,
+      unique: true
     },
     password: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
-});
+  });
 
-// Modèle utilisateur basé sur le schéma
-const User = mongoose.model('User', userSchema);
+  UserSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next();
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  });
 
-module.exports = User;
+module.exports = mongoose.model("User", UserSchema);

@@ -1,43 +1,46 @@
-const express = require('express');
-const router = express.Router(); // Crée une instance de routeur
-const User = require('../models/user'); // Import du modèle utilisateur
+const express = require("express");
+const jwt = require("jsonwebtoken");
+const router = express.Router();
+const authenticateToken = require("../middleware/auth"); // Middleware
+const User = require("../models/user"); // Modèle utilisateur de votre base
 
-// Middleware spécifique (si nécessaire, sinon déléguez-le au fichier principal)
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const secretKey = "123456"; // Clé secrète pour le JWT
 
+// Route POST /login pour générer un token
 router.post("/login", async (req, res) => {
-    try {
-      const { username, password } = req.body;
-  
-      // Vérifiez les champs de la requête
-      if (!username || !password) {
-        return res.status(400).json({ error: "Nom d'utilisateur ou mot de passe manquant." });
-      }
-  
-      // Récupérez l'utilisateur dans la base de données
-      const pseudo = await User.findOne({ username });
-      if (!pseudo) {
-        return res.status(401).json({ error: "Nom d'utilisateur ou mot de passe incorrect." });
-      }
-  
-      // Vérifiez le mot de passe
-      const isPasswordValid = await bcrypt.compare(password, User.password);
-      if (!isPasswordValid) {
-        return res.status(401).json({ error: "Nom d'utilisateur ou mot de passe incorrect." });
-      }
-  
-      // Générer un token JWT pour l'utilisateur
-      const token = jwt.sign({ id: User._id, username: User.username }, secretKey, {
-        expiresIn: "1h", // Durée de vie du token
-      });
-  
-      // Tout est bon, renvoyez une réponse avec le token
-      return res.status(200).json({ message: "Connexion réussie.", token });
-    } catch (error) {
-      console.error("Erreur lors de la connexion de l'utilisateur :", error);
-      return res.status(500).json({ error: "Erreur serveur, veuillez réessayer plus tard." });
+  const { username, password } = req.body;
+
+  try {
+    // Étape 1 : Validation des champs
+    if (!username || !password) {
+      return res.status(400).json({ error: "Nom d'utilisateur ou mot de passe manquant." });
     }
-  });
+
+    // Étape 2 : Vérification dans la base de données (Utilisateur fictif ici comme exemple)
+    const user = await User.findOne({ username, password });
+    if (!user) {
+      return res.status(403).json({ error: "Identifiants incorrects." });
+    }
+
+    // Étape 3 : Créer un token JWT avec des informations utiles
+    const payload = {
+      id: user._id, // ID unique de l'utilisateur
+      username: user.username, // Nom utilisateur pour le contexte
+    };
+    const token = jwt.sign(payload, secretKey, { expiresIn: "1h" });
+
+    // Étape 4 : Retourner le token à l'utilisateur
+    res.status(200).json({ message: "Connexion réussie.", token });
+  } catch (error) {
+    console.error("Erreur lors de la connexion :", error);
+    res.status(500).json({ error: "Une erreur serveur est survenue." });
+  }
+});
+
+// Route GET /protected (exemple d'authentification via middleware)
+router.get("/protected", authenticateToken, (req, res) => {
+  // Accessible uniquement si le JWT est authentifié
+  res.status(200).json({ message: "Vous avez accédé à une route protégée.", user: req.user });
+});
 
 module.exports = router;
