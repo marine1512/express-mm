@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/tableau.css">
+    <title>Tableau de Bord</title>
+</head>
+<body>
+    <%- include('partials/header2.ejs') %>
+    <main>
+        <h1>Bienvenue !</h1>
+        <div class="listes">   
+            <p><i class="fa-solid fa-ship"></i><a href="/catways">Voir la listes des catways</a></p>
+            <p><i class="fa-solid fa-fish"></i><a href="/users">Voir la listes des utilisateurs</a></p>
+            <p><i class="fa-solid fa-umbrella-beach"></i><a href="/reservations">Voir la listes des réservations</a></p>
+        </div>
+
+        
+    </main>
+    <%- include('partials/footer.ejs') %>
+</body>
+</html>

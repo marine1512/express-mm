@@ -30,7 +30,10 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(payload, secretKey, { expiresIn: "1h" });
 
     // Étape 4 : Retourner le token à l'utilisateur
-    res.status(200).json({ message: "Connexion réussie.", token });
+    return res.status(200).json({
+      message: "Authentification réussie.",
+      token: token,
+    });
   } catch (error) {
     console.error("Erreur lors de la connexion :", error);
     res.status(500).json({ error: "Une erreur serveur est survenue." });

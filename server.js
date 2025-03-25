@@ -28,24 +28,38 @@ app.use(express.static(path.join(__dirname, "public"))); // Serveur de fichiers 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views")); // Chemin des fichiers EJS
 
-app.get("/test", (req, res) => {
-  res.status(200).json({ message: "Route test accessible." });
-});
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 
 // Import des routes
 const routes = require("./routes/index"); // Routes principales dans routes/index.js
 const loginRoutes = require("./routes/login"); // Routes pour la connexion dans routes/login.js
 const authenticateToken = require("./middleware/auth");
 const protectedRoutes = require("./routes/protected");
-const catwaysRoutes = require('./routes/catways');
+const tableauDeBord = require('./routes/tableauDeBord');
+const userRoutes = require('./routes/users');
+const catwayRoutes = require('./routes/catways'); // Importer les routes catways
+const reservationRoutes = require('./routes/reservations'); // Toutes les routes liées au `catway`
 
 
 // Utilisation des routes
 app.use("/", routes); // Routage principal
 app.use(loginRoutes); // Routage spécifique pour la connexion
 app.use('/protected', authenticateToken, protectedRoutes);
-app.use(catwaysRoutes);
+app.use(tableauDeBord);
+app.use('/catways', catwayRoutes);
+app.use('/users', userRoutes);
+app.use('/reservations', reservationRoutes);
 
+const adminMiddleware = (req, res, next) => {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).send('Accès refusé. Privilèges administrateur requis.');
+  }
+  next();
+};
+
+// Appliquez le middleware au groupe de routes
+app.use(adminMiddleware);
 
 
 // Gestion des erreurs 404 (routes non trouvées)

@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Document</title>
 </head>
 <body>
     <%- include('partials/header.ejs') %>
     <main>
         <h1>Page de connexion</h1>
-        <form action="/login" method="POST">
-            <label>Pseudo: </label><input type="text" name="username" required />
+        <form action="/login" method="POST" id="loginForm">
+            <label>Pseudo: </label><input id="username" type="text" name="username" required />
             <br>
-            <label>Mot de passe: </label><input type="password" name="password" required />
+            <label>Mot de passe: </label><input id="password" type="password" name="password" required />
             <br>
             <button type="submit">Se connecter</button>
         </form>
     </main>
+
+    <script src="/app.js"></script>
+
     <%- include('partials/footer.ejs') %>
 </body>
 </html>

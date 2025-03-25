@@ -1,0 +1,45 @@
+header {
+    background: #0d2142;
+    color: #fff;
+    border-bottom: 2px dashed white;
+    padding: 1em 0;
+    text-align: center;
+  }
+
+header >.fa-solid{
+    font-size: 2em;
+}
+
+  
+  footer {
+    background: #0d2142;
+    color: #fff;
+    border-top: 2px dashed white;
+    text-align: center;
+    padding: 1em 0;
+
+  }
+
+.header2{
+  background: #0d2142;
+  color: #fff;
+  display: flex;
+  border-bottom: 2px dashed white;
+  padding: 1em 0;
+  text-align: center;
+  justify-content: space-evenly;
+}
+
+.header2 > ul{
+  list-style-type: none;
+}
+
+.header2 > ul > li > a{
+  color: #fff;
+}
+button {
+  background-color: #0d2142;
+  border-radius: 50%;
+  color: white;
+  padding: 10px;
+}

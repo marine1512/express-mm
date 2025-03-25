@@ -1,16 +1,78 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="/css/catways.css">
+    <title>Liste des Catways</title>
 </head>
 <body>
-    <%- include('partials/header.ejs') %>
+    <%- include('partials/header2.ejs') %>
     <main>
-        <h1>Liste des catways</h1>
+      <button class="button"><a href="/tableau">Retour au Tableau de bord</a></button>
+      <h1>Créer une nouvelle Catway</h1>
+      <form action="/catways" method="POST">
+          <label for="catwayNumber" id="catwayNumber">Numéro: </label>
+          <input type="text" id="catwayNumber" name="catwayNumber" required>
+  
+          <label for="type">Type: </label>
+          <input type="text" id="type" name="type"></input>
+
+          <label for="catwayState">Etat: : </label>
+          <textarea id="catwayState" name="catwayState"></textarea>
+  
+          <button type="submit">Créer</button>
+      </form>
+        <h1>Liste des Catways</h1>
+        
+        <table>
+            <thead>
+              <tr>
+                <th>Numéro</th>
+                <th>Type</th>
+                <th>Etat</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (catways.length > 0) { %>
+                <% catways.forEach(catway => { %>
+                  <tr>
+                    <td><%= catway.catwayNumber %></td>
+                    <td><%= catway.type %></td>
+                    <td><%= catway.catwayState %></td>
+                    <td>
+                        <!-- Bouton pour afficher le formulaire -->
+                        <button onclick="toggleForm('<%= catway._id %>')">Modifier</button>
+
+                        <!-- Formulaire pour mettre à jour la Catway -->
+                        <form id="update-form-<%= catway._id %>" action="/catways/<%= catway._id %>?_method=PUT" method="POST" style="display: none;">
+                            <h4>Mettre à jour cette Catway</h4>
+
+                            <label for="catwayState-<%= catway._id %>">État :</label>
+                            <textarea id="catwayState-<%= catway._id %>" name="catwayState"><%= catway.catwayState %></textarea>
+
+                            <button type="submit" id="modifier">Enregistrer les modifications</button>
+                        </form>
+                    </td>
+                    <td>
+                        <!-- Bouton pour Supprimer -->
+                        <form action="/catways/<%= catway._id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return deleteCatway(event)">
+                            <button type="submit">
+                                Supprimer
+                            </button>
+                        </form>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr>
+                  <td>Aucun utilisateur trouvé</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
     </main>
+    <script src="/app.js"></script>
     <%- include('partials/footer.ejs') %>
 </body>
 </html>

@@ -4,9 +4,10 @@ body{
 }
 
 main {
-    background-color: #d9e7ff;
+    background-image: url('../image/fond_2.jpg');
+    background-size: cover;
     margin: 0;
-    padding: 1em;
+    padding: 7em;
     text-align: center;
   }
 
@@ -26,4 +27,24 @@ button{
     border-radius: 50%;
     color: white;
     padding: 10px;
+}
+
+.listes{
+    display: flex;
+    justify-content: space-around;
+}
+
+a {
+    color: #0d2142;
+    font-size: 22px;
+}
+
+.listes .fa-solid{
+    font-size: 22px;
+    color: #335284;
+}
+
+p{
+    display: flex;
+    gap: 10px;
 }

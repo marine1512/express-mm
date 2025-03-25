@@ -3,15 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/utilisateurs.css">
   <title>Liste des utilisateurs</title>
 </head>
 <body>
-  <h1>Liste des utilisateurs</h1>
+  <%- include('partials/header2.ejs') %>
+  <main>
+    <button class="button"><a href="/tableau">Retour au Tableau de bord</a></button>
+      <h1>Liste des utilisateurs</h1>
   <table border="1">
     <thead>
       <tr>
         <th>Pseudo</th>
-        <th>password</th>
+        <th>Password</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +24,47 @@
           <tr>
             <td><%= user.username %></td>
             <td><%= user.password %></td>
+            <td>
+              <!-- Bouton pour afficher le formulaire -->
+              <button id="button" onclick="toggleForm('<%= user._id %>')">Modifier</button>
+
+              <!-- Formulaire pour mettre à jour utilisateur -->
+              <form id="update-form-<%= user._id %>" 
+                action="/users/<%= user._id %>?_method=PUT" 
+                method="POST" 
+                style="display: none;">
+          
+              <h4>Mettre à jour cet Utilisateur</h4>
+          
+              <!-- Champ pour modifier le pseudo -->
+              <label for="username-<%= user._id %>">Pseudo :</label>
+              <input 
+                id="username-<%= user._id %>" 
+                name="username" 
+                type="text" 
+                placeholder="<%= user.username %>" 
+                required />
+          
+              <!-- Champ pour modifier le mot de passe -->
+              <label for="password-<%= user._id %>">Mot de passe :</label>
+              <input 
+                id="password-<%= user._id %>" 
+                name="password" 
+                type="password" 
+                placeholder="<%= user.password %>"  />
+          
+              <!-- Bouton pour soumettre -->
+              <button type="submit" id="modifier">Enregistrer les modifications</button>
+          </form>
+          </td>
+          <td>
+            <!-- Bouton pour Supprimer -->
+            <form action="/users/<%= user._id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return deleteUser(event)">
+                <button type="submit">
+                    Supprimer
+                </button>
+            </form>
+        </td>
           </tr>
         <% }); %>
       <% } else { %>
@@ -29,5 +74,18 @@
       <% } %>
     </tbody>
   </table>
+  <h1>Créer un nouvel Utilisateur</h1>
+  <form action="/users" method="POST">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    
+    <button type="submit">Submit</button>
+  </form>
+  </main>
+  <script src="/app.js"></script>
+  <%- include('partials/footer.ejs') %>
 </body>
 </html>
