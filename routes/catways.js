@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Catway = require('../models/catway'); // Importer le modèle Catway
 
-// Route 1 : GET /catways - Récupérer toutes les catways
+const reservationsRoutes = require('../routes/reservations'); // Chemin vers routes/reservation.js
+
+
+// 1. Récupérer toutes les catways
 router.get('/', async (req, res) => {
     try {
         const catways = await Catway.find();
@@ -12,7 +15,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Route 2 : GET /catways/:id - Récupérer une catway par ID
+// 2. Récupérer une catway par ID
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
@@ -40,7 +43,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Route : POST /catways - Créer une nouvelle Catway
+// 3. Créer une nouvelle Catway
 router.post('/', async (req, res) => {
     const { catwayNumber, type, catwayState } = req.body;
 
@@ -68,16 +71,12 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Route 4 : PUT /catways/:id - Mettre à jour une catway par ID
+// 4. Mettre à jour une catway par ID
 router.put('/:id', async (req, res) => {
-    console.log(`[DEBUG] Méthode : PUT | URL : /catways/${req.params.id}`);
-    console.log('[DEBUG] Body reçu :', req.body);
-
     try {
         const { id } = req.params;
 
         // Journalisation avant mise à jour de la base
-        console.log('[DEBUG] Requête mise à jour pour ID :', id);
 
         const updatedCatway = await Catway.findByIdAndUpdate(id, req.body, { new: true });
 
@@ -85,16 +84,13 @@ router.put('/:id', async (req, res) => {
             console.error('[ERROR] Aucun résultat pour ID :', id);
             return res.status(404).send('Catway introuvable');
         }
-
-        console.log('[SUCCESS] Catway mise à jour :', updatedCatway);
         res.redirect('/catways');
     } catch (error) {
-        console.error('[ERROR] Une erreur a eu lieu lors de la mise à jour :', error);
         res.status(500).send('Erreur serveur lors de la mise à jour');
     }
 });
 
-// Route 5 : DELETE /catways/:id - Supprimer une catway par ID
+// 5. Supprimer une catway par ID
 router.delete('/:id', async (req, res) => {
     try {
         const deletedCatway = await Catway.findByIdAndDelete(req.params.id);
@@ -111,5 +107,6 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+router.use('/:id', reservationsRoutes);
 // Exporter les routes
 module.exports = router;

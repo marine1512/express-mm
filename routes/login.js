@@ -1,13 +1,17 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
-const authenticateToken = require("../middleware/auth"); // Middleware
 const User = require("../models/user"); // Modèle utilisateur de votre base
 
 const secretKey = "123456"; // Clé secrète pour le JWT
+const options = { expiresIn: "1h" };
+
+router.get('/', (req, res) => {
+  res.render('login');
+});
 
 // Route POST /login pour générer un token
-router.post("/login", async (req, res) => {
+router.post("/login",  async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -17,7 +21,7 @@ router.post("/login", async (req, res) => {
     }
 
     // Étape 2 : Vérification dans la base de données (Utilisateur fictif ici comme exemple)
-    const user = await User.findOne({ username, password });
+    const user = await User.findOne({ username: username, password: password }).select('+isAdmin');
     if (!user) {
       return res.status(403).json({ error: "Identifiants incorrects." });
     }
@@ -26,8 +30,10 @@ router.post("/login", async (req, res) => {
     const payload = {
       id: user._id, // ID unique de l'utilisateur
       username: user.username, // Nom utilisateur pour le contexte
+      isAdmin: true
+      
     };
-    const token = jwt.sign(payload, secretKey, { expiresIn: "1h" });
+    const token = jwt.sign(payload, secretKey, options);
 
     // Étape 4 : Retourner le token à l'utilisateur
     return res.status(200).json({
@@ -40,4 +46,5 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Exporter la route
 module.exports = router;

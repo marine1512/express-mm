@@ -15,77 +15,65 @@
     <thead>
       <tr>
         <th>Pseudo</th>
-        <th>Password</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <% if (users.length > 0) { %>
-        <% users.forEach(user => { %>
-          <tr>
-            <td><%= user.username %></td>
-            <td><%= user.password %></td>
-            <td>
-              <!-- Bouton pour afficher le formulaire -->
-              <button id="button" onclick="toggleForm('<%= user._id %>')">Modifier</button>
-
-              <!-- Formulaire pour mettre à jour utilisateur -->
-              <form id="update-form-<%= user._id %>" 
-                action="/users/<%= user._id %>?_method=PUT" 
-                method="POST" 
-                style="display: none;">
-          
-              <h4>Mettre à jour cet Utilisateur</h4>
-          
-              <!-- Champ pour modifier le pseudo -->
-              <label for="username-<%= user._id %>">Pseudo :</label>
-              <input 
+      <% users.forEach(user => { %>
+      <tr>
+        <td><%= user.username %></td>
+        <td>
+          <!-- Bouton pour afficher le formulaire -->
+          <button id="button" onclick="toggleForm('<%= user._id %>')">Modifier</button>
+          <!-- Formulaire pour mettre à jour utilisateur -->
+          <form id="update-form-<%= user._id %>" 
+            action="/users/<%= user._id %>?_method=PUT" 
+            method="POST" 
+            style="display: none;">
+            <h4>Mettre à jour cet Utilisateur</h4> 
+            <!-- Champ pour modifier le pseudo -->
+            <label for="username-<%= user._id %>">Pseudo :</label>
+            <input 
                 id="username-<%= user._id %>" 
-                name="username" 
+                name="uername" 
                 type="text" 
                 placeholder="<%= user.username %>" 
                 required />
-          
-              <!-- Champ pour modifier le mot de passe -->
-              <label for="password-<%= user._id %>">Mot de passe :</label>
-              <input 
+            <!-- Champ pour modifier le mot de passe -->
+            <label for="password-<%= user._id %>">Mot de passe :</label>
+            <input 
                 id="password-<%= user._id %>" 
                 name="password" 
                 type="password" 
                 placeholder="<%= user.password %>"  />
-          
-              <!-- Bouton pour soumettre -->
-              <button type="submit" id="modifier">Enregistrer les modifications</button>
+            <!-- Bouton pour soumettre -->
+            <button type="submit" id="modifier">Enregistrer les modifications</button>
           </form>
-          </td>
-          <td>
-            <!-- Bouton pour Supprimer -->
-            <form action="/users/<%= user._id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return deleteUser(event)">
-                <button type="submit">
-                    Supprimer
-                </button>
-            </form>
+          <!-- Bouton pour Supprimer -->
+          <form action="/users/<%= user._id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return deleteUser(event)">
+            <button type="submit">Supprimer</button>
+          </form>
         </td>
-          </tr>
-        <% }); %>
+      </tr>
+      <% }); %>
       <% } else { %>
-        <tr>
-          <td colspan="3">Aucun utilisateur trouvé</td>
-        </tr>
-      <% } %>
+      <tr>
+        <td colspan="3">Aucun utilisateur trouvé</td>
+      </tr>
+    <% } %>
     </tbody>
-  </table>
-  <h1>Créer un nouvel Utilisateur</h1>
-  <form action="/users" method="POST">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    
-    <button type="submit">Submit</button>
-  </form>
+    </table>
+    <h1>Créer un nouvel Utilisateur</h1>
+    <form action="/users" method="POST">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Submit</button>
+    </form>
   </main>
-  <script src="/app.js"></script>
+  <script src="/javascript/user.js"></script>
   <%- include('partials/footer.ejs') %>
 </body>
 </html>

@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user'); // Import du modèle utilisateur
 const mongoose = require('mongoose');
 
-// Lire la liste des utilisateurs
+// 1. Lire la liste des utilisateurs
 router.get('/', async (req, res) => {
   try {
     const users = await User.find();
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Erreur lors de la lecture des utilisateurs', error: error.message });
   }
 });
-// Créer un nouvel utilisateur
+// 2. Créer un nouvel utilisateur
 router.post('/', async (req, res) => {
   try {
     console.log('Requête POST reçue sur /users'); // Vérifie que la route est bien atteinte
@@ -124,4 +124,5 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Exporter les routes
 module.exports = router;

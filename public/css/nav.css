@@ -37,9 +37,15 @@ header >.fa-solid{
 .header2 > ul > li > a{
   color: #fff;
 }
-button {
+
+#logoutButton{
   background-color: #0d2142;
   border-radius: 50%;
   color: white;
   padding: 10px;
+  margin: 7px;
+}
+
+#logoutButton:hover {
+  background: #0056b3;
 }

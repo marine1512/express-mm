@@ -1,20 +1,28 @@
 const mongoose = require('mongoose');
 
 // Définir le schéma Catway
-const CatwaySchema = new mongoose.Schema({
+const catwaySchema = new mongoose.Schema({
     catwayNumber: {
-        type: Number,
-        required: true
+      type: String,
+      required: true,
+      unique: true, // Assurez-vous que chaque catway a un numéro unique
     },
     type: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     catwayState: {
-        type: String,
-        required: true
+      type: String,
+      default: 'Libre', // Par défaut, un catway est disponible
+    },
+      // Lien vers les réservations
+  reservation: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Reservation' // Référence le modèle `Reservation`
     }
+  ]
 });
 
-// Exporter le modèle
-module.exports = mongoose.model('Catway', CatwaySchema);
+// Exporter le modèle Catway
+module.exports = mongoose.model('Catway', catwaySchema);

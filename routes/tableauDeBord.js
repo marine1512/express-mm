@@ -5,5 +5,5 @@ router.get('/tableau', (req, res) => {
     res.render('tableauDeBord');
 });
 
-// Exporter le router pour l'utiliser dans server.js
+// Exporter le router 
 module.exports = router;

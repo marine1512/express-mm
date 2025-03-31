@@ -1,49 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/catways.css">
-    <title>Liste des Réservations</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/catways-reservations.css">
+  <title>
+    Réservations pour le Catway 
+  </title>
 </head>
 <body>
-    <%- include('partials/header2.ejs') %>
-    <main>
-      <button class="button"><a href="/tableau">Retour au Tableau de bord</a></button>
-      
-        <h1>Liste des Reservations</h1>
-        
-        <table>
-            <thead>
-              <tr>
-                <th>Catway</th>
-                <th>Client</th>
-                <th>Nom du bateau</th>
-                <th>Création</th>
-                <th>Retour</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% if (reservations.length > 0) { %>
-                <% reservations.forEach(reservation => { %>
-                  <tr>
-                    <td><%= reservation.catwayNumber %></td>
-                    <td><%= reservation.clientName %></td>
-                    <td><%= reservation.boatName %></td>
-                    <td><%= reservation.checkIn %></td>
-                    <td><%= reservation.checkOut %></td>
-                  </tr>
-                <% }); %>
-              <% } else { %>
-                <tr>
-                  <td>Aucune reservation trouvée</td>
-                </tr>
-              <% } %>
-            </tbody>
+  <%- include('partials/header2.ejs') %>  
+  <main>
+    <button class="retour">
+      <a href="/catways">Retour à la liste des Catways</a>
+    </button>
+    <!-- Formulaire pour créer une nouvelle Réservation -->
+    <h1>Créer une nouvelle Réservation</h1>
+    <form action="/catways/<%= catway._id %>/reservations" method="POST" class="crea">
+      <div>
+        <label for="catwayNumber">N° catway : </label>
+        <input type="text" type="text" id="catwayNumber" name="catwayNumber" required>
+    </div>
+      <div>
+          <label for="clientName">Client : </label>
+          <input type="text" type="text" id="clientName" name="clientName" required>
+      </div>
+      <div>
+        <label for="boatName">Bateau : </label>
+        <input type="text" id="boatName" name="boatName" required>
+      </div>
+      <div>
+        <label for="checkIn">Loué le : </label>
+        <input type="date" id="checkIn" name="checkIn">
+      </div>
+      <div>
+        <label for="checkOut">Retour : </label>
+        <input type="date" id="checkOut" name="checkOut">
+      </div>
+      <div>
+        <button type="submit" class="button">Créer</button>
+      </div>
+    </form>
+    <h2>Liste des réservations</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Bateau</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (reservations.length > 0) { %>
+        <% reservations.forEach(reservation => { %>
+        <tr>
+          <td><%= reservation.clientName %></td>
+          <td><%= reservation.boatName %></td>
+          <td>
+            <a href="/catways/<%= catway._id %>/reservations/<%= reservation._id %>"><button class="button">Voir</button></a>
+          </td>
+          <td>
+              <!-- Formulaire de suppression -->
+              <form action="/catways/<%= catway._id %>/reservations/<%= reservation._id %>?_method=DELETE" 
+                method="POST" 
+                onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?');">
+                <button type="submit" class="button">Supprimer</button>
+              </form>
+          </td>
+        </tr>
+        <% }); %>
+        <% } else { %>
+        <tr>
+          <td>Aucune Catway trouvée.</td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+  </main>
+      <!-- Inclusion du script JS -->
+      <script src="/javascript/catway_reservation.js"></script>
 
-          </table>
-    </main>
-    <script src="/app.js"></script>
-    <%- include('partials/footer.ejs') %>
+  <%- include('partials/footer.ejs') %>
 </body>
 </html>

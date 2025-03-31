@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/catways-reservations.css">
+  <title>
+    Réservations pour le Catway 
+  </title>
+</head>
+<body>
+  <%- include('partials/header2.ejs') %>  
+  <main>
+    <button class="retour">
+      <a href="/catways/<%= catway._id %>/reservations">Retour aux reservations du Catway</a>
+    </button>
+    <h2>Liste des réservations</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Loué le: </th>
+          <th>Retour: </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <% if (reservations.length > 0) { %>
+        <% reservations.forEach(reservation => { %>
+        <tr>
+          <td><%= reservation.cheeckIn %></td>
+          <td><%= reservation.checkOut %></td>
+        </tr>
+        <% }); %>
+        <% } else { %>
+        <tr>
+          <td>Aucune Catway trouvée.</td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+  </main>
+      <!-- Inclusion du script JS -->
+      <script src="/javascript/catway_reservation.js"></script>
+
+  <%- include('partials/footer.ejs') %>
+</body>
+</html>
