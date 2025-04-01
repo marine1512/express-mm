@@ -4,7 +4,35 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user'); // Import du modèle utilisateur
 const mongoose = require('mongoose');
 
-// 1. Lire la liste des utilisateurs
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Récupère la liste des utilisateurs
+ *     tags: [Users]
+ *     description: Retourne la liste de tous les utilisateurs stockés dans la base de données et les affiche dans une vue HTML.
+ *     responses:
+ *       200:
+ *         description: Succès - La liste des utilisateurs a été récupérée et rendue.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ *               example: Vue HTML contenant la liste des utilisateurs.
+ *       500:
+ *         description: Erreur interne - Impossible de récupérer les utilisateurs.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Erreur lors de la lecture des utilisateurs"
+ *                 error:
+ *                   type: string
+ *                   example: "Détails de l'erreur interne"
+ */
 router.get('/', async (req, res) => {
   try {
     const users = await User.find();
@@ -13,7 +41,59 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Erreur lors de la lecture des utilisateurs', error: error.message });
   }
 });
-// 2. Créer un nouvel utilisateur
+
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     summary: Crée un nouvel utilisateur
+ *     tags: [Users]
+ *     description: Cette route permet de créer un nouvel utilisateur, après vérification des champs et du pseudo unique. Le mot de passe est haché avant d'être sauvegardé dans la base de données.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: Le pseudo unique de l'utilisateur.
+ *                 example: johndoe
+ *               password:
+ *                 type: string
+ *                 description: Le mot de passe de l'utilisateur.
+ *                 example: mypassword123
+ *             required:
+ *               - username
+ *               - password
+ *     responses:
+ *       200:
+ *         description: Redirection vers la liste des utilisateurs après création réussie.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ *               example: "Redirection vers /users"
+ *       400:
+ *         description: Erreur de validation des champs ou si le pseudo est déjà utilisé.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               examples:
+ *                 missing_fields:
+ *                   value: "Le pseudo et le mot de passe sont requis."
+ *                 username_taken:
+ *                   value: "Ce pseudo est déjà utilisé."
+ *       500:
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ *               example: "<p>Erreur interne : une erreur est survenue lors de la création de l'utilisateur.</p>"
+ */
 router.post('/', async (req, res) => {
   try {
     console.log('Requête POST reçue sur /users'); // Vérifie que la route est bien atteinte
@@ -55,7 +135,94 @@ router.post('/', async (req, res) => {
   }
 });
 
-// 3. Modifier un utilisateur
+/**
+ * @swagger
+ * /users/{id}:
+ *   put:
+ *     summary: Met à jour un utilisateur
+ *     tags: [Users]
+ *     description: Cette route permet de mettre à jour les informations d'un utilisateur existant. Si un nouveau mot de passe est fourni, il sera haché avant d'être enregistré.
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID de l'utilisateur à mettre à jour.
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: Nouveau nom d'utilisateur.
+ *               password:
+ *                 type: string
+ *                 description: Nouveau mot de passe (facultatif).
+ *             example:
+ *               username: "nouveau_pseudo"
+ *               password: "nouveau_mot_de_passe"
+ *     responses:
+ *       200:
+ *         description: Utilisateur mis à jour avec succès.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   description: ID de l'utilisateur mis à jour.
+ *                 username:
+ *                   type: string
+ *                   description: Nom d'utilisateur mis à jour.
+ *                 password:
+ *                   type: string
+ *                   description: Mot de passe mis à jour (haché).
+ *               example:
+ *                 id: "64ae0f9c9bcf3a0012ec8a78"
+ *                 username: "nouveau_pseudo"
+ *                 password: "$2b$10$4DcsVvfVnDtyN9V4Q8hbJe3Ty0kNo2/KncgcWDZP9GNqJABCCkQeq"
+ *       400:
+ *         description: Mauvaise requête, les données fournies ne sont pas valides.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 example:
+ *                   message: "Le mot de passe est requis."
+ *       404:
+ *         description: Utilisateur introuvable.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *               example:
+ *                 message: "Utilisateur introuvable"
+ *       500:
+ *         description: Erreur interne du serveur.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 error:
+ *                   type: string
+ *               example:
+ *                 message: "Erreur serveur"
+ *                 error: "Détails de l'erreur"
+ */
 router.put('/:id', async (req, res) => {
   try {
       const { id } = req.params;
@@ -94,7 +261,74 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// 4. Supprimer un utilisateur
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     summary: Supprime un utilisateur
+ *     tags: [Users]
+ *     description: Cette route permet de supprimer un utilisateur à partir de son ID.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           description: L'identifiant unique de l'utilisateur (doit être un ObjectId valide).
+ *     responses:
+ *       200:
+ *         description: Utilisateur supprimé avec succès.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Utilisateur supprimé avec succès
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       description: ID unique de l'utilisateur supprimé.
+ *                     username:
+ *                       type: string
+ *                       description: Nom d'utilisateur.
+ *       400:
+ *         description: ID utilisateur invalide.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: ID utilisateur invalide.
+ *       404:
+ *         description: Utilisateur introuvable.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Utilisateur introuvable.
+ *       500:
+ *         description: Erreur interne lors de la suppression.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Erreur lors de la suppression.
+ *                 error:
+ *                   type: string
+ *                   example: Détails techniques de l'erreur.
+ */
 router.delete('/:id', async (req, res) => {
   try {
     console.log('Requête DELETE reçue pour ID :', req.params.id);

@@ -1,13 +1,18 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const connectDB = require("./config/db"); // Import de la connexion MongoDB
 require("dotenv").config(); // Charger les variables d'environnement depuis .env
 const path = require("path");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = require('./config/swagger-config'); // Import de votre configuration Swagger
+
 
 const app = express();
 
 // connexion à la DB
 connectDB();
+
+   // Middleware Swagger : affichage de la documentation
+   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Middleware global pour loguer les requêtes entrantes
 app.use((req, res, next) => {
