@@ -9,7 +9,15 @@
 <body>
   <%- include('partials/header2.ejs') %>
   <main>
-    <button class="button"><a href="/tableau">Retour au Tableau de bord</a></button>
+    <button class="retour"><a href="/tableau">Retour au Tableau de bord</a></button>
+    <h1>Créer un nouvel Utilisateur</h1>
+    <form action="/users" method="POST">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit" id="button">Submit</button>
+    </form>
       <h1>Liste des utilisateurs</h1>
   <table border="1">
     <thead>
@@ -48,11 +56,11 @@
                 type="password" 
                 placeholder="<%= user.password %>"  />
             <!-- Bouton pour soumettre -->
-            <button type="submit" id="modifier">Enregistrer les modifications</button>
+            <button type="submit" id="button">Enregistrer les modifications</button>
           </form>
           <!-- Bouton pour Supprimer -->
           <form action="/users/<%= user._id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return deleteUser(event)">
-            <button type="submit">Supprimer</button>
+            <button id="button" type="submit">Supprimer</button>
           </form>
         </td>
       </tr>
@@ -64,14 +72,6 @@
     <% } %>
     </tbody>
     </table>
-    <h1>Créer un nouvel Utilisateur</h1>
-    <form action="/users" method="POST">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-      <button type="submit">Submit</button>
-    </form>
   </main>
   <script src="/javascript/user.js"></script>
   <%- include('partials/footer.ejs') %>

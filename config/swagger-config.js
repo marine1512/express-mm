@@ -9,12 +9,6 @@ const swaggerOptions = {
         description: 'Documentation de mon API'
       }
     },
-    tags: [
-        {
-          name: 'Reservations',
-          description: 'Gestion des réservations',
-        },
-      ],
     apis: ['./routes/*.js'], // Chemin où Swagger analyse vos routes
   };
   

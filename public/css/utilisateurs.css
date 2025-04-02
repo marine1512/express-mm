@@ -13,13 +13,41 @@ main {
     flex-direction: column;
   }
 
-.button{
-    width: 15%;
-    padding: 1em;
+  .retour{
+    width: fit-content;
+    background-color: #0d2142;
+    border-radius: 50%;
+    color: white;
+    padding: 17px;
 }
 
-.button > a{
+.retour > a{
+    font-weight: bold;
     color: white;
+    text-decoration: none;
+}
+
+input {
+    background-color: #a27d5c59;
+    border: 2px solid black;
+}
+
+#button{
+    font-weight: bold;
+    background-color: #EBDACB;
+    border-radius: 50%;
+    padding: 1em;
+    margin: 5px;
+}
+
+#button:hover {
+    background: #a27d5c;
+}
+
+#button > a{
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
 }
 
 h1{

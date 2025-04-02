@@ -32,7 +32,7 @@ main {
     background-color: #EBDACB;
     border-radius: 50%;
     padding: 1em;
-    margin-bottom: 2px;
+    margin: 5px;
 }
 
 .button:hover {
@@ -58,6 +58,11 @@ h1{
     gap: 1em;
 }
 
+textarea#catway, #reservation {
+    background-color: #a27d5c59;
+    border: 2px solid black;
+}
+
 
 table{
     border: 1px solid black;
@@ -70,6 +75,11 @@ th, td{
 
 tr{
     margin: 1em;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
 }
 
 #update-form {

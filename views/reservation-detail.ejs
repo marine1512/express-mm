@@ -12,36 +12,26 @@
   <%- include('partials/header2.ejs') %>  
   <main>
     <button class="retour">
-      <a href="/catways/<%= catway._id %>/reservations">Retour aux reservations du Catway</a>
+      <a href="/catways/<%= catway %>/reservations">Retour aux réservations du Catway</a>
     </button>
-    <h2>Liste des réservations</h2>
+    <h1>Détail de la réservation</h1>
     <table>
       <thead>
         <tr>
-          <th>Loué le: </th>
-          <th>Retour: </th>
-
+          <th>Loué le</th>
+          <th>Retour</th>
         </tr>
       </thead>
       <tbody>
-        <% if (reservations.length > 0) { %>
-        <% reservations.forEach(reservation => { %>
         <tr>
           <td><%= reservation.checkIn %></td>
           <td><%= reservation.checkOut %></td>
         </tr>
-        <% }); %>
-        <% } else { %>
-        <tr>
-          <td>Aucune Catway trouvée.</td>
-        </tr>
-      <% } %>
       </tbody>
     </table>
   </main>
-      <!-- Inclusion du script JS -->
-      <script src="/javascript/catway_reservation.js"></script>
-
+  <!-- Inclusion du script JS -->
+  <script src="/javascript/catway_reservation.js"></script>
   <%- include('partials/footer.ejs') %>
 </body>
 </html>

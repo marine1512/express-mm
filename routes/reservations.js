@@ -222,19 +222,25 @@ router.get("/:id/reservations/:idReservation", async (req, res) => {
   const { id, idReservation } = req.params;
 
   try {
+    // Trouver une réservation spécifique par son ID et son Catway
     const reservation = await Reservation.findOne({
       _id: idReservation,
-      catway: id,
+      catway: id, // Vérifie si la réservation appartient bien au catway
     });
 
+    // Si la réservation n'est pas trouvée, retournez une erreur 404
     if (!reservation) {
-      return res.status(404).json({ message: "Reservation not found" });
+      return res.status(404).json({ message: "Réservation introuvable" });
     }
 
-    res.render("reservation-detail", { reservation });
+    // Rendre la vue avec le détail de la réservation spécifique
+    res.render("reservation-detail", { 
+      reservation, // Transmet uniquement la réservation au template
+      catway: id, // ID du catway auquel appartient la réservation
+    });
   } catch (err) {
     console.error("Erreur :", err);
-    res.status(500).json({ error: "Erreur serveur" });
+    res.status(500).json({ error: "Erreur serveur lors de la récupération de la réservation" });
   }
 });
 

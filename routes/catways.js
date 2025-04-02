@@ -49,8 +49,72 @@ router.get('/', async (req, res) => {
     }
 });
 
-
-// 2. Récupérer une catway par ID
+/**
+ * @swagger
+ * /{id}:
+ *   get:
+ *     summary: Récupère les détails d'une Catway par ID
+ *     tags: [Catways]
+ *     description: Cette route permet de récupérer les détails d'une Catway correspondant à un ID MongoDB valide. Si l'ID est invalide ou si la Catway n'est pas trouvée, une erreur est renvoyée.
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID de la Catway à rechercher (doit être un ObjectId MongoDB valide).
+ *         schema:
+ *           type: string
+ *           pattern: "^[0-9a-fA-F]{24}$"
+ *           example: "64b2f5f72e573fabd6d94710"
+ *     responses:
+ *       200:
+ *         description: Détails de la Catway récupérés avec succès.
+ *         content:
+ *           text/html:
+ *             schema:
+ *               type: string
+ *               example: |
+ *                 <!DOCTYPE html>
+ *                 <html>
+ *                   <head><title>Détails de la Catway</title></head>
+ *                   <body>
+ *                     <h1>Catway : Nom de la Catway</h1>
+ *                     <p>Description de la Catway</p>
+ *                   </body>
+ *                 </html>
+ *       400:
+ *         description: Requête invalide, l'ID fourni n'est pas un ObjectId MongoDB valide.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "ID invalide. Un ObjectId MongoDB valide est requis."
+ *       404:
+ *         description: La Catway n'a pas été trouvée.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Catway non trouvée."
+ *       500:
+ *         description: Erreur interne lors de la récupération des données.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Erreur interne du serveur"
+ *                 error:
+ *                   type: string
+ *                   example: "Détails de l'erreur interne"
+ */
 router.get('/:id', async (req, res) => {
     try {
         const id = req.params.id;
@@ -68,8 +132,8 @@ router.get('/:id', async (req, res) => {
         if (!catway) {
             return res.status(404).json({ message: 'Catway non trouvée.' });
         }
-
-        res.json(catway);
+        const catways = await Catway.find();
+        res.render ('catway-detail', { catway });
     } catch (error) {
         res.status(500).json({ 
             message: 'Erreur interne du serveur',
@@ -231,7 +295,7 @@ router.put('/:id', async (req, res) => {
             console.error('[ERROR] Aucun résultat pour ID :', id);
             return res.status(404).send('Catway introuvable');
         }
-        res.redirect('/catways');
+        res.render('catway-detail', { catway: updatedCatway });
     } catch (error) {
         res.status(500).send('Erreur serveur lors de la mise à jour');
     }

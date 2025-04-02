@@ -1,5 +1,5 @@
 const express = require("express");
-const connectDB = require("./config/db"); // Import de la connexion MongoDB
+const { connectDB } = require("./config/db"); // Import de la connexion MongoDB
 require("dotenv").config(); // Charger les variables d'environnement depuis .env
 const path = require("path");
 const swaggerUi = require('swagger-ui-express');

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/catways-reservations.css">
+    <title>Liste des Catways</title>
+</head>
+<body>
+  <%- include('partials/header2.ejs') %>
+  <main>
+    <button class="retour">
+        <a href="/catways">Retour à la liste des Catways</a>
+      </button>
+      <h1>Etat du Catway</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>État</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= catway.catwayState %></td>
+            <td>
+              <!-- Bouton pour afficher le formulaire de mise à jour -->
+              <button onclick="toggleForm('<%= catway._id %>')" class="button" >Modifier</button>
+              <!-- Formulaire de mise à jour -->
+              <form id="update-form-<%= catway._id %>" 
+              action="/catways/<%= catway._id %>?_method=PUT" 
+              method="POST" 
+              style="display: none;">
+                <h4>Mettre à jour cet état :</h4>
+                <textarea id="catwayState-<%= catway._id %>" 
+                          name="catwayState" 
+                          required><%= catway.catwayState %>
+                </textarea>
+                <button type="submit" class="button">Enregistrer</button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+
+    <!-- Inclusion du script JS -->
+    <script src="/javascript/catway_reservation.js"></script>
+
+    <%- include('partials/footer.ejs') %>
+</body>
+</html>

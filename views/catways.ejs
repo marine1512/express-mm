@@ -18,15 +18,15 @@
       <form action="/catways" method="POST" class="crea">
         <div>
             <label for="catwayNumber">Numéro : </label>
-            <textarea type="text" id="catwayNumber" name="catwayNumber" required></textarea>
+            <textarea type="text" id="catway" name="catwayNumber" required></textarea>
         </div>
         <div>
           <label for="type">Type : </label>
-          <textarea type="text" id="type" name="type" required></textarea>
+          <textarea type="text" id="catway" name="type" required></textarea>
         </div>
         <div>
           <label for="catwayState">État : </label>
-          <textarea id="catwayState" name="catwayState"></textarea>
+          <textarea id="catway" name="catwayState"></textarea>
         </div>
         <div>
           <button type="submit" class="button">Créer</button>
@@ -39,8 +39,6 @@
           <tr>
             <th>Numéro</th>
             <th>Type</th>
-            <th>État</th>
-            <th>Réservations</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -50,25 +48,9 @@
           <tr>
             <td><%= catway.catwayNumber %></td>
             <td><%= catway.type %></td>
-            <td><%= catway.catwayState %></td>
-            <td>
-              <a href="/catways/<%= catway._id %>/reservations"><button class="button">Voir</button></a>
-            </td>
-            <td>
-              <!-- Bouton pour afficher le formulaire de mise à jour -->
-              <button onclick="toggleForm('<%= catway._id %>')" class="button" >Modifier</button>
-              <!-- Formulaire de mise à jour -->
-              <form id="update-form-<%= catway._id %>" 
-              action="/catways/<%= catway._id %>?_method=PUT" 
-              method="POST" 
-              style="display: none;">
-                <h4>Mettre à jour cet état :</h4>
-                <textarea id="catwayState-<%= catway._id %>" 
-                          name="catwayState" 
-                          required><%= catway.catwayState %>
-                </textarea>
-                <button type="submit" class="button">Enregistrer</button>
-              </form>
+            <td class="actions">
+              <button class="button"><a href="/catways/<%= catway._id %>">Voir Les détails</a></button>
+              <button class="button"><a href="/catways/<%= catway._id %>/reservations">Voir Les réservations</a></button>
                 <!-- Formulaire de suppression -->
                 <form action="/catways/<%= catway._id %>?_method=DELETE" 
                       method="POST" 
