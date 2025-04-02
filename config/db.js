@@ -6,9 +6,7 @@ const connectDB = async () => {
     mongoose.set('strictQuery', false); // Éviter les avertissements
     await mongoose.connect(process.env.DATABASE_URI, { // Utilisation de DATABASE_URI depuis .env
     });
-    console.log("Connexion réussie à MongoDB !");
   } catch (err) {
-    console.error("Erreur de connexion à MongoDB :", err.message);
     process.exit(1); // Quitter l'application en cas d'échec
   }
 };
@@ -17,9 +15,7 @@ const connectDB = async () => {
 const closeDB = async () => {
   try {
     await mongoose.connection.close(); // Fermer toutes les connexions
-    console.log("Connexion MongoDB fermée proprement.");
   } catch (err) {
-    console.error("Erreur pendant la fermeture de MongoDB :", err.message);
   }
 };
 

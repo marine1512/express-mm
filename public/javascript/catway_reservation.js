@@ -1,12 +1,9 @@
 function toggleForm(id) {
-    console.log('toggleForm appelée avec l’ID :', id); // Journalisez l'ID reçu
     const form = document.getElementById(`update-form-${id}`);
     
     if (form) {
-      console.log('Formulaire trouvé pour l’ID :', id); // Formulaire ciblé trouvé
       form.style.display = (form.style.display === 'none' || !form.style.display) ? 'block' : 'none';
     } else {
-      console.error(`Formulaire introuvable pour l’ID : ${id}`);
     }
   }
   async function deleteCatway(event) {
@@ -28,7 +25,6 @@ function toggleForm(id) {
             alert("Erreur lors de la suppression. Veuillez réessayer.");
         }
     } catch (error) {
-        console.error("Erreur lors de la suppression :", error);
     }
   }
 
@@ -57,6 +53,5 @@ function toggleReservationForm(reservationId) {
             alert("Erreur lors de la suppression. Veuillez réessayer.");
         }
     } catch (error) {
-        console.error("Erreur lors de la suppression :", error);
     }
   }

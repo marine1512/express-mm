@@ -132,7 +132,6 @@ router.post("/login",  async (req, res) => {
       token: token,
     });
   } catch (error) {
-    console.error("Erreur lors de la connexion :", error);
     res.status(500).json({ error: "Une erreur serveur est survenue." });
   }
 });

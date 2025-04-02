@@ -46,7 +46,6 @@ const Catway = require('../models/catway');
 router.get('/',  async (req, res) => {
     try {
       const reservations = await Reservation.find(); // Récupère toutes les réservations dans la collection
-      console.log("Données des réservations :", reservations); 
       res.render('reservation-liste', { reservations });
     } catch (error) {
       res.status(500).json({ message: 'Erreur lors de la récupération des réservations', error });
@@ -155,7 +154,6 @@ console.log(catway);
     const reservations = await Reservation
       .find({ _id: { $in: catway.reservation } });
       // .toArray()
-console.log(reservations);
 
 
     // Rendre la page avec les données récupérées
@@ -164,7 +162,6 @@ console.log(reservations);
       reservations, // Transmettre les détails des réservations à la vue
     });
   } catch (error) {
-    console.error('Erreur lors de la récupération des données :', error);
     res.status(500).send('Erreur interne du serveur.');
   }
 });
@@ -239,7 +236,6 @@ router.get("/:id/reservations/:idReservation", async (req, res) => {
       catway: id, // ID du catway auquel appartient la réservation
     });
   } catch (err) {
-    console.error("Erreur :", err);
     res.status(500).json({ error: "Erreur serveur lors de la récupération de la réservation" });
   }
 });
@@ -320,7 +316,6 @@ router.get("/:id/reservations/:idReservation", async (req, res) => {
  */
 router.post('/:id/reservations', async (req, res) => {
   try {
-    console.log("ID du Catway reçu :", req.params.id);
 
     // Rechercher le Catway par son ID dans req.params.id
     const catway = await Catway.findById(req.params.id);
@@ -335,8 +330,6 @@ router.post('/:id/reservations', async (req, res) => {
 
     // Récupération des données envoyées dans le corps de la requête
     const { catwayNumber ,clientName, boatName, checkIn, checkOut } = req.body;
-
-    console.log("Données de la réservation :", { clientName, boatName, checkIn, checkOut });
 
     // Créer une nouvelle réservation
     const newReservation = new Reservation({
@@ -358,10 +351,8 @@ router.post('/:id/reservations', async (req, res) => {
     // Sauvegarder le Catway mis à jour
     await catway.save();
 
-    console.log("Nouvelle réservation ajoutée :", newReservation);
     res.redirect(`/catways/${catway._id}/reservations`);
   } catch (error) {
-    console.error("Erreur détectée :", error);
     res.status(500).send('Erreur serveur.');
   }
 });
@@ -411,23 +402,18 @@ router.post('/:id/reservations', async (req, res) => {
  */
 router.delete('/:id/reservations/:idReservation', async (req, res) => {
   try {
-    console.log("Tentative de suppression d'une réservation...");
-    console.log("ID Catway :", req.params.id);
-    console.log("ID Réservation :", req.params.idReservation);
 
     const { id, idReservation } = req.params;
 
     // Rechercher le Catway
     const catway = await Catway.findById(id);
     if (!catway) {
-      console.log("Catway introuvable !");
       return res.status(404).send('Catway introuvable');
     }
 
     // Rechercher et confirmer la réservation avant de supprimer
     const reservationToDelete = await Reservation.findById(idReservation);
     if (!reservationToDelete) {
-      console.log("Réservation introuvable !");
       return res.status(404).send('Réservation introuvable');
     }
 
@@ -440,11 +426,8 @@ router.delete('/:id/reservations/:idReservation', async (req, res) => {
     );
     await catway.save();
 
-    console.log("Réservation supprimée :", reservationToDelete);
-
     res.redirect(`/catways/${catway._id}/reservations`);
   } catch (error) {
-    console.error("Erreur lors de la suppression :", error);
     res.status(500).send('Erreur serveur');
   }
 });

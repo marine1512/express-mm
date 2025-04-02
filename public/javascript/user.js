@@ -28,7 +28,6 @@ async function deleteUser(event) {
         }
     } catch (error) {
         // Affiche une erreur si la requête échoue
-        console.error("Erreur lors de la suppression :", error);
         alert("Une erreur imprévue est survenue.");
     } finally {
         button.disabled = false; // Réactiver le bouton

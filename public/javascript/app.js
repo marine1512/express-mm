@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error("Erreur : Token non récupéré.");
       }
     } catch (error) {
-      console.error('Erreur lors de la connexion :', error.message);
       alert(error.message);
     }
   });
@@ -41,11 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.logout = () => {
-  console.log('Avant suppression :', localStorage.getItem('token')); // Afficher le token avant
-
   localStorage.removeItem('token'); // Supprime le token
-
-  console.log('Après suppression :', localStorage.getItem('token')); // Vérifie s'il est supprimé
 
   // Redirection
   window.location.href = '/';

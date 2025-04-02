@@ -96,28 +96,23 @@ router.get('/', async (req, res) => {
  */
 router.post('/', async (req, res) => {
   try {
-    console.log('Requête POST reçue sur /users'); // Vérifie que la route est bien atteinte
-    console.log('Corps de la requête :', req.body); // Montre ce qui est envoyé dans la requête
 
     // Récupération des champs
     const { username, password } = req.body;
 
     // Vérifiez si les champs sont présents
     if (!username || !password) {
-      console.log('Champs manquants : username ou password pas fourni');
       return res.status(400).send('Le pseudo et le mot de passe sont requis.');
     }
 
     // Vérifiez si l'utilisateur existe déjà
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      console.log('Utilisateur existant trouvé avec ce pseudo :', username);
       return res.status(400).send('Ce pseudo est déjà utilisé.');
     }
 
     // Hachez le mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log('Mot de passe haché avec succès');
 
     // Créez un nouvel utilisateur
     const newUser = new User({
@@ -125,12 +120,10 @@ router.post('/', async (req, res) => {
       password: hashedPassword,
     });
     await newUser.save();
-    console.log('Nouvel utilisateur créé et sauvegardé :', newUser);
 
     // Redirection ou réponse
     res.redirect('/users');
   } catch (error) {
-    console.error('Erreur dans POST /users :', error.message); // Erreur claire dans les logs
     res.status(500).send(`<p>Erreur interne : ${error.message}</p>`);
   }
 });
@@ -256,7 +249,6 @@ router.put('/:id', async (req, res) => {
       // Envoyer une réponse de succès
       res.redirect('/users')
   } catch (error) {
-      console.error('Erreur lors de la mise à jour :', error);
       res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
 });
@@ -331,13 +323,11 @@ router.put('/:id', async (req, res) => {
  */
 router.delete('/:id', async (req, res) => {
   try {
-    console.log('Requête DELETE reçue pour ID :', req.params.id);
 
     const { id } = req.params;
 
     // Vérifiez si l'ID est valide dans MongoDB
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      console.error('ID utilisateur non valide :', id);
       return res.status(400).json({ message: 'ID utilisateur invalide' });
     }
 
@@ -345,15 +335,11 @@ router.delete('/:id', async (req, res) => {
     const deletedUser = await User.findByIdAndDelete(id);
 
     if (!deletedUser) {
-      console.error('Utilisateur introuvable avec cet ID :', id);
       return res.status(404).json({ message: 'Utilisateur introuvable' });
     }
-
-    console.log('Utilisateur supprimé avec succès :', deletedUser);
     res.status(200).json({ message: 'Utilisateur supprimé avec succès', user: deletedUser });
 
   } catch (error) {
-    console.error('Erreur critique détectée lors de la suppression :', error); // Log ici
     res.status(500).json({ message: 'Erreur lors de la suppression', error: error.message || 'Erreur inconnue' });
   }
 });

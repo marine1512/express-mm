@@ -224,7 +224,6 @@ router.post('/', async (req, res) => {
         // Rediriger pour afficher la liste mise à jour
         res.redirect('/catways');
     } catch (error) {
-        console.error('Erreur lors de la création de la Catway:', error);
         res.status(500).json({ message: 'Erreur lors de la création de la Catway.', error });
     }
 });
@@ -355,10 +354,8 @@ router.delete('/:id', async (req, res) => {
             return res.status(404).json({ message: 'Catway non trouvée' });
         }
 
-        console.log(`Catway supprimée avec succès :`, deletedCatway);
         res.redirect('/catways'); // Redirige vers la liste des Catways
     } catch (error) {
-        console.error('[DELETE ERROR]', error);
         res.status(500).json({ message: 'Erreur lors de la suppression de la catway', error });
     }
 });

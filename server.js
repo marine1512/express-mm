@@ -16,7 +16,6 @@ connectDB();
 
 // Middleware global pour loguer les requêtes entrantes
 app.use((req, res, next) => {
-  console.log(`Requête reçue : ${req.method} ${req.url}`);
   next();
 });
 
