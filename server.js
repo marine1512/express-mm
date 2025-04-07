@@ -1,59 +1,49 @@
 const express = require("express");
-const { connectDB } = require("./config/db"); // Import de la connexion MongoDB
-require("dotenv").config(); // Charger les variables d'environnement depuis .env
+const swaggerDocs = require('./config/swagger-config'); // Swagger configuration
+const configureMiddlewares = require('./config/middlewares'); // Middlewares globaux
+const { connectDB } = require("./config/db"); // Connexion à MongoDB
+require("dotenv").config(); // Chargement des variables d'env
 const path = require("path");
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocs = require('./config/swagger-config'); // Import de votre configuration Swagger
-
+const authMiddleware = require('./middleware/authMiddleware'); // Authentication middleware
+const methodOverride = require('method-override');
 
 const app = express();
 
-// connexion à la DB
+// Connexion à la DB
 connectDB();
 
-   // Middleware Swagger : affichage de la documentation
-   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
-// Middleware global pour loguer les requêtes entrantes
-app.use((req, res, next) => {
-  next();
-});
-
-// Configuration des middlewares
-app.use(express.json()); // Middleware natif pour lire les JSON
-app.use(express.urlencoded({ extended: true })); // Middleware pour les requêtes encodées (formulaires)
-app.use(express.static(path.join(__dirname, "public"))); // Serveur de fichiers statiques (CSS/JS/Images)
-
-// Configuration du moteur de template EJS (pour les vues HTML dynamiques)
+// Configuration du moteur EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views")); // Chemin des fichiers EJS
 
-const methodOverride = require('method-override');
-app.use(methodOverride('_method'));
+// Middlewares globaux
+app.use(methodOverride('_method')); // Pour les méthodes PUT et DELETE dans les formulaires
+configureMiddlewares(app, swaggerDocs); // Middleware général venant de config/middlewares
 
-// Import des routes
+// Routes importées
+const loginRoutes = require("./routes/login"); // Routes de connexion
+const tableauDeBordRoutes = require('./routes/tableauDeBord'); // Dashboard routes
+const userRoutes = require('./routes/users'); // User management routes
+const catwayRoutes = require('./routes/catways'); // Routes pour les Catways
+const reservationRoutes = require('./routes/reservations'); // Routes pour les Réservations
 
-const loginRoutes = require("./routes/login"); // Routes pour la connexion dans routes/login.js
-const tableauDeBord = require('./routes/tableauDeBord');
-const userRoutes = require('./routes/users');
-const catwayRoutes = require('./routes/catways'); // Importer les routes catways
-const reservationRoutes = require('./routes/reservations'); // Toutes les routes liées au `catway`
+// *** ROUTES ***
 
+// Routes publiques, sans authentification
+app.use('/', loginRoutes);
 
-// Utilisation des routes
-app.use(loginRoutes); // Routage spécifique pour la connexion
-app.use(tableauDeBord, );
-app.use('/catways', catwayRoutes, reservationRoutes);
-app.use('/users', userRoutes);
-app.use('/reservations', reservationRoutes);
+// Routes protégées par `authMiddleware` (nécessitent être connecté)
+app.use('/tableauDeBord', authMiddleware, tableauDeBordRoutes); // Tableau de bord protégé
+app.use('/users', authMiddleware, userRoutes); // Gestion des utilisateurs protégée
+app.use('/catways', authMiddleware, catwayRoutes); // Accès aux Catways
+app.use('/reservations', authMiddleware, reservationRoutes); // Gestion des réservations protégée
 
-// Gestion des erreurs 404 (routes non trouvées)
+// Gestion des erreurs 404 pour les routes manquantes
 app.use((req, res) => {
-  res.status(404).send("Page non trouvée");
+  res.status(404).render('404'); // Affiche la page 404.ejs
 });
-
+const PORT = process.env.PORT; // Définition du port, avec une valeur par défaut
 // Lancement du serveur
-const PORT =  3000; 
 app.listen(PORT, () => {
   console.log(`Serveur Express démarré sur http://localhost:${PORT}`);
 });

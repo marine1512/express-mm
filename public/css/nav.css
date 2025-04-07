@@ -11,7 +11,7 @@ header >.fa-solid{
 }
 
   
-  footer {
+footer {
     background: #0d2142;
     color: #fff;
     border-top: 2px dashed white;
@@ -38,14 +38,15 @@ header >.fa-solid{
   color: #fff;
 }
 
-#logoutButton{
+#logoutButton, #loginButton{
   background-color: #0d2142;
   border-radius: 50%;
   color: white;
   padding: 10px;
   margin: 7px;
+  cursor: pointer;
 }
 
-#logoutButton:hover {
+#logoutButton:hover, #loginButton:hover {
   background: #0056b3;
 }

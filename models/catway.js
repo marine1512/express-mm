@@ -16,7 +16,7 @@ const catwaySchema = new mongoose.Schema({
       default: 'Libre', // Par défaut, un catway est disponible
     },
       // Lien vers les réservations
-  reservation: [
+  reservationId: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Reservation' // Référence le modèle `Reservation`

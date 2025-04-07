@@ -11,9 +11,25 @@
 <body>
   <%- include('partials/header2.ejs') %>  
   <main>
-    <button class="retour">
-      <a href="/catways">Retour à la liste des Catways</a>
-    </button>
+    <a href="/catways"><button class="retour">
+      Retour à la liste des Catways
+    </button></a>
+    <h2>Ajouter une Nouvelle Réservation</h2>
+        <form action="/catways/<%= catway._id %>/reservations" method="POST">
+            <label for="clientName">Nom du Client :</label>
+            <input type="text" id="clientName" name="clientName" required>
+
+            <label for="boatName">Nom du Bateau :</label>
+            <input type="text" id="boatName" name="boatName" required>
+
+            <label for="checkIn">Date d'Arrivée :</label>
+            <input type="date" id="checkIn" name="checkIn" required>
+
+            <label for="checkOut">Date de Départ :</label>
+            <input type="date" id="checkOut" name="checkOut" required>
+
+            <button type="submit">Créer la Réservation</button>
+        </form>
     <h2>Liste des réservations pour la catway</h2>
     <table>
       <thead>

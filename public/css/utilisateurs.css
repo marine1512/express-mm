@@ -19,6 +19,7 @@ main {
     border-radius: 50%;
     color: white;
     padding: 17px;
+    cursor: pointer;
 }
 
 .retour > a{
@@ -38,6 +39,7 @@ input {
     border-radius: 50%;
     padding: 1em;
     margin: 5px;
+    cursor: pointer;
 }
 
 #button:hover {
@@ -67,9 +69,6 @@ th, td{
 
 tr{
     margin: 1em;
-}
-#button:hover {
-    background: #0056b3;
 }
 #update-form {
     display: none; /* Masquer tous les formulaires par défaut */

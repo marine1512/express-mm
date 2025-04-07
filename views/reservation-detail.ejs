@@ -5,15 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/catways-reservations.css">
   <title>
-    Réservations pour le Catway 
-  </title>
+    Réservation
 </head>
 <body>
   <%- include('partials/header2.ejs') %>  
   <main>
-    <button class="retour">
-      <a href="/catways/<%= catway %>/reservations">Retour aux réservations du Catway</a>
-    </button>
+    <a href="/catways/<%= catway._id %>/reservations"><button class="retour">
+      Retour aux réservations du Catway
+    </button></a>
     <h1>Détail de la réservation</h1>
     <table>
       <thead>
@@ -24,8 +23,8 @@
       </thead>
       <tbody>
         <tr>
-          <td><%= reservation.checkIn %></td>
-          <td><%= reservation.checkOut %></td>
+          <td><%= new Date(reservation.checkIn).toLocaleDateString('fr-FR') %></td>
+          <td><%= new Date(reservation.checkOut).toLocaleDateString('fr-FR') %></td>
         </tr>
       </tbody>
     </table>

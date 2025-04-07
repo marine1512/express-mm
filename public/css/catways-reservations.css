@@ -19,6 +19,7 @@ main {
     border-radius: 50%;
     color: white;
     padding: 17px;
+    cursor: pointer;
 }
 
 .retour > a{
@@ -33,6 +34,7 @@ main {
     border-radius: 50%;
     padding: 1em;
     margin: 5px;
+    cursor: pointer;
 }
 
 .button:hover {
@@ -92,6 +94,7 @@ tr{
 #modifier{
     margin: 1em;
     padding: 1.2em;
+    cursor: pointer;
   }
 
 

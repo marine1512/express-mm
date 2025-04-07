@@ -1,0 +1,18 @@
+body{
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+.no{
+    display: flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.no > p{
+    font-size: 5em;
+}
+

@@ -10,9 +10,9 @@
   <%- include('partials/header2.ejs') %>
   <main>
     <!-- Bouton pour revenir au tableau de bord -->
-    <button class="retour">
-      <a href="/tableau">Retour au Tableau de bord</a>
-    </button>
+    <a href="/tableau"><button class="retour">
+      Retour au Tableau de bord
+    </button></a>
       <!-- Formulaire pour créer un nouveau Catway -->
       <h1>Créer une nouvelle Catway</h1>
       <form action="/catways" method="POST" class="crea">
@@ -49,8 +49,8 @@
             <td><%= catway.catwayNumber %></td>
             <td><%= catway.type %></td>
             <td class="actions">
-              <button class="button"><a href="/catways/<%= catway._id %>">Voir Les détails</a></button>
-              <button class="button"><a href="/catways/<%= catway._id %>/reservations">Voir Les réservations</a></button>
+              <a href="/catways/<%= catway._id %>"><button class="button">Voir Les détails</button></a>
+              <a href="/catways/<%= catway._id %>/reservations"><button class="button">Voir les réservations</button></a>
                 <!-- Formulaire de suppression -->
                 <form action="/catways/<%= catway._id %>?_method=DELETE" 
                       method="POST" 

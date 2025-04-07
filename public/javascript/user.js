@@ -34,3 +34,12 @@ async function deleteUser(event) {
         button.textContent = "Supprimer"; // Réinitialiser le texte du bouton
     }
   }
+
+  function toggleForm(id) {
+    const form = document.getElementById(`update-form-${id}`);
+    
+    if (form) {
+      form.style.display = (form.style.display === 'none' || !form.style.display) ? 'block' : 'none';
+    } else {
+    }
+  }

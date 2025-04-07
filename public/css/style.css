@@ -31,6 +31,7 @@ button{
     border-radius: 50%;
     color: white;
     padding: 10px;
+    cursor: pointer;
 }
 
 p > a{
@@ -44,6 +45,6 @@ p > a{
     padding: 6px;
     border: 3px solid black;
 }
-.api > a{
+a{
     color: black;
 }

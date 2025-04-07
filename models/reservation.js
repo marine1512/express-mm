@@ -3,12 +3,11 @@ const Schema = mongoose.Schema;
 
 // Définir le schéma Reservation
 const reservationSchema = new Schema({
-  CatwayNumber: { type: Number }, 
+  catwayNumber: { type: String }, 
   clientName: { type: String, required: true },
   boatName: { type: String, required: true },
   checkIn: { type: Date, required: true },
   checkOut: { type: Date, required: true },  
-  catway: { type: mongoose.Schema.Types.ObjectId, ref: "Catway", required: true },
 
   catwayId: { type: mongoose.Schema.Types.ObjectId, ref: 'Catway' } 
 });

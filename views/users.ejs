@@ -9,14 +9,14 @@
 <body>
   <%- include('partials/header2.ejs') %>
   <main>
-    <button class="retour"><a href="/tableau">Retour au Tableau de bord</a></button>
+    <a href="/tableau"><button class="retour">Retour au Tableau de bord</button></a>
     <h1>Créer un nouvel Utilisateur</h1>
     <form action="/users" method="POST">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" required>
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" required>
-      <button type="submit" id="button">Submit</button>
+      <button type="submit" id="button">Créer</button>
     </form>
       <h1>Liste des utilisateurs</h1>
   <table border="1">
