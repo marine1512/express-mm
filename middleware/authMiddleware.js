@@ -1,21 +1,23 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
-  // Récupérer le cookie contenant le token
-  const token = req.cookies.token;
+  const token = req.cookies.token; // Lire le token dans les cookies
+
+  console.log('Token reçu dans le middleware :', token); // Debugging
 
   if (!token) {
-    return res.status(401).json({ error: 'Accès non autorisé : aucun token trouvé.' });
+    console.log('Aucun token trouvé, accès refusé.');
+    return res.status(401).render('login'); // Redirige vers la page de connexion
   }
 
   try {
-    // Vérifier le token
-    const decoded = jwt.verify(token, process.env.SECRET_KEY); // Vérifie que le token est valide
-    req.user = decoded; // Ajoute les données décodées du token à `req.user`
-    next(); // Passe au middleware suivant
+    const decoded = jwt.verify(token, process.env.secretKey); // Décoder le token
+    console.log('Token validé, utilisateur :', decoded); // Debugging
+    req.user = decoded; // Attacher les infos utilisateur à req.user
+    next(); // Continuer vers la prochaine étape (route)
   } catch (error) {
-    console.error('Erreur token authMiddleware :', error.message);
-    res.status(403).json({ error: 'Token invalide ou expiré.' });
+    console.log('Erreur de validation JWT :', error.message); // Debugging
+    return res.status(403).render('login'); // Redirige vers la page de connexion ou une erreur
   }
 };
 
