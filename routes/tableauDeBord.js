@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 /**
@@ -19,8 +20,8 @@ const router = express.Router();
  *       500:
  *         description: Erreur interne du serveur.
  */
-router.get('/tableau',  (req, res) => {
-    res.render('tableauDeBord', );
+router.get('/tableau', (req, res) => {
+    res.render('tableauDeBord');
 });
 
 // Exporter le router 

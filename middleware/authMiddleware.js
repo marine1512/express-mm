@@ -1,27 +1,21 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
-  // Vérification du header Authorization
-  const authHeader = req.headers["authorization"];
-  if (!authHeader) {
-    return res.status(401).json({ error: "Accès non autorisé : aucun token fourni" });
-  }
-
-  // Extraction du token (en retirant 'Bearer ')
-  const token = authHeader.split(" ")[1];
+  // Récupérer le cookie contenant le token
+  const token = req.cookies.token;
 
   if (!token) {
-    return res.status(401).json({ error: "Accès non autorisé : mauvais format de token" });
+    return res.status(401).json({ error: 'Accès non autorisé : aucun token trouvé.' });
   }
 
   try {
-    // Vérification et décodage du token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "maCléSecrète");
-    req.user = decoded; // Stockage des données utilisateur dans req.user
-    next(); // Passage au middleware suivant ou à la route
-  } catch (err) {
-    console.error("Erreur lors de la vérification du token :", err);
-    return res.status(403).json({ error: "Token invalide ou expiré" });
+    // Vérifier le token
+    const decoded = jwt.verify(token, process.env.SECRET_KEY); // Vérifie que le token est valide
+    req.user = decoded; // Ajoute les données décodées du token à `req.user`
+    next(); // Passe au middleware suivant
+  } catch (error) {
+    console.error('Erreur token authMiddleware :', error.message);
+    res.status(403).json({ error: 'Token invalide ou expiré.' });
   }
 };
 

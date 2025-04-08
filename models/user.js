@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    select: false, // Assurez-vous que ce champ est sélectionné par défaut
+    select: true, // Assurez-vous que ce champ est sélectionné par défaut
   },
   roles: {
     type: [String],
