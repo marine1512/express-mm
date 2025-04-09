@@ -26,8 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log("Données reçues du backend :", data);
 
       // Pas besoin de manipuler directement le token avec les cookies
-      console.log("Connexion réussie.");
-      alert('Connexion réussie, redirection en cours...');
+      console.log('Connexion réussie, cookie envoyé.');
 
       // Redirection vers la page du tableau de bord
       window.location.href = '/tableau';
@@ -42,20 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
 // Fonction de déconnexion
 window.logout = async () => {
   try {
-    // Envoyer une requête au backend pour supprimer le cookie
+    // Envoyer une requête POST au backend
     const response = await fetch('http://localhost:3000/logout', {
       method: 'POST',
-      credentials: 'include', // Inclure les cookies dans la requête
+      credentials: 'include', // Inclure les cookies
     });
+
+    console.log('Réponse du serveur logout :', response);
 
     if (!response.ok) {
       throw new Error('Erreur lors de la déconnexion.');
     }
 
     console.log('Déconnexion réussie.');
-    alert('Déconnecté avec succès.');
 
-    // Redirection vers la page d'accueil
+    // Envoyer l'utilisateur vers une page publique
     window.location.href = '/';
   } catch (error) {
     console.error('Erreur de déconnexion :', error.message);

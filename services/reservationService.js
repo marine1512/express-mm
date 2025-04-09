@@ -11,17 +11,12 @@ class ReservationService {
     // Récupérer les détails des réservations associées à un Catway
     static async getReservationsForCatway(catwayId) {
         try {
-            const catway = await Catway.findOne({ _id: catwayId }).populate('reservationId');
-    
-            // Si aucun Catway trouvé, gestion de l'erreur
-            if (!catway) {
-                throw new Error(`Catway introuvable pour l'ID ${catwayId}`);
-            }
-    
+            // Recherchez un Catway par son ID et chargez ses réservations
+            const catway = await Catway.findById(new mongoose.Types.ObjectId(catwayId)).populate('reservationId');
             return catway;
         } catch (error) {
             console.error('Erreur dans getReservationsForCatway :', error.message);
-            throw error; // Propagation de l'erreur
+            throw error;
         }
     }
 

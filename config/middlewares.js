@@ -21,7 +21,7 @@ const configureMiddlewares = (app, swaggerDocs) => {
 
   // Configurer le moteur de vues EJS
   app.set('view engine', 'ejs');
-  app.set('views', path.join(process.cwd(), 'views')); // Dossier des vues EJS
+  app.set('views', './views'); // Dossier des vues EJS
 
   // Serveur de fichiers statiques (CSS, JS, images, etc.)
   app.use(express.static(path.join(__dirname, '../public')));

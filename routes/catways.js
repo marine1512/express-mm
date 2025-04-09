@@ -1,7 +1,16 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Catways
+ *   description: Gestion des Catways
+ */
+
+
 const express = require('express');
 const router = express.Router();
 const catwayController = require('../controllers/catwayController');
 const reservationsRoutes = require('../routes/reservations');
+
 
 // Routes principales
 router.get('/', catwayController.getAllCatways); // Liste des catways

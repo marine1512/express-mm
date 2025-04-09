@@ -59,7 +59,8 @@ class ReservationController {
                 console.warn(`Aucune réservation trouvée pour le Catway ID ${id} et Réservation ID ${idReservation}`);
                 return res.status(404).json({ message: "Réservation introuvable pour ce catway" });
             }
-    
+            console.log(`[DEBUG] Données de réservation récupérées :`, reservation);
+
             // Si une réservation est trouvée, rendre la vue
             res.render('reservation-detail', { 
                 reservation,

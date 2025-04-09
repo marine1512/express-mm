@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
 
   if (!token) {
     console.log('Aucun token trouvé, accès refusé.');
-    return res.status(401).render('login'); // Redirige vers la page de connexion
+    return res.status(401).render('404'); // Redirige vers la page 404
   }
 
   try {
@@ -17,7 +17,7 @@ const authMiddleware = (req, res, next) => {
     next(); // Continuer vers la prochaine étape (route)
   } catch (error) {
     console.log('Erreur de validation JWT :', error.message); // Debugging
-    return res.status(403).render('login'); // Redirige vers la page de connexion ou une erreur
+    return res.status(403).render('404'); // Redirige vers la page 404
   }
 };
 

@@ -11,14 +11,15 @@ header >.fa-solid{
 }
 
   
-footer {
-    background: #0d2142;
-    color: #fff;
-    border-top: 2px dashed white;
-    text-align: center;
-    padding: 1em 0;
 
-  }
+footer {
+  display: flex;
+  background: #0d2142;
+  color: #fff;
+  border-top: 2px dashed white;
+  padding: 1em 0;
+  justify-content: center;
+}
 
 .header2{
   background: #0d2142;

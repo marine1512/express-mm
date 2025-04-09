@@ -29,14 +29,13 @@ const reservationRoutes = require('./routes/reservations'); // Routes pour les R
 app.use('/', loginRoutes);
 
 // Routes protégées par `authMiddleware` (nécessitent être connecté)
-app.use('/tableau', authMiddleware, tableauDeBordRoutes); // Tableau de bord protégé
+app.use('/', authMiddleware, tableauDeBordRoutes); // Tableau de bord protégé
 app.use('/users', authMiddleware, userRoutes); // Gestion des utilisateurs protégée
-app.use('/catways', authMiddleware, catwayRoutes); // Accès aux Catways
+app.use('/catways', authMiddleware, catwayRoutes, reservationRoutes); // Accès aux Catways
 app.use('/reservations', authMiddleware, reservationRoutes); // Gestion des réservations protégée
 
-// Gestion des erreurs 404 (route introuvable)
 app.use((req, res) => {
-  res.status(404).render('404'); // Rend la vue 404.ejs
+  res.status(404).render('404');
 });
 
 const PORT = process.env.PORT; // Définition du port, avec une valeur par défaut

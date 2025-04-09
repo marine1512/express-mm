@@ -3,6 +3,21 @@ body{
     margin: 0;
 }
 
+.retour{
+    width: fit-content;
+    background-color: #0d2142;
+    border-radius: 50%;
+    color: white;
+    padding: 17px;
+    cursor: pointer;
+}
+
+.retour > a{
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
 .no{
     display: flex;
     display: flex;
