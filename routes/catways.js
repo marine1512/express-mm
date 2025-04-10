@@ -1,10 +1,3 @@
-/**
- * @swagger
- * tags:
- *   name: Catways
- *   description: Gestion des Catways
- */
-
 
 const express = require('express');
 const router = express.Router();
@@ -23,3 +16,4 @@ router.delete('/:id', catwayController.deleteCatway); // Suppression
 router.use('/:id', reservationsRoutes);
 
 module.exports = router;
+

@@ -15,7 +15,6 @@ class ReservationService {
             const catway = await Catway.findById(new mongoose.Types.ObjectId(catwayId)).populate('reservationId');
             return catway;
         } catch (error) {
-            console.error('Erreur dans getReservationsForCatway :', error.message);
             throw error;
         }
     }
@@ -23,15 +22,12 @@ class ReservationService {
     // Ajouter une nouvelle réservation
     static async addReservation(catwayId, reservationData) {
         try {
-            console.log('ID du Catway pour l’ajout :', catwayId);
     
             // Vérifiez si le Catway existe
             const catway = await Catway.findById(catwayId);
             if (!catway) {
                 throw new Error('Catway introuvable');
             }
-    
-            console.log('Catway trouvé :', catway);
     
             // Créez une nouvelle réservation
             const newReservation = new Reservation({
@@ -50,7 +46,6 @@ class ReservationService {
     
             return savedReservation;
         } catch (error) {
-            console.error('Erreur lors de l’ajout de réservation :', error);
             throw error;
         }
     }
@@ -58,22 +53,16 @@ class ReservationService {
     // Supprimer une réservation
     static async deleteReservation(catwayId, reservationId) {
         try {
-            console.log(`Tentative de suppression : Catway ID = ${catwayId}, Reservation ID = ${reservationId}`);
             
             const result = await Reservation.deleteOne({
                 _id: reservationId,
                 catwayId: catwayId
             });
             
-            console.log('Résultat de la requête MongoDB :', result);
-            
             if (result.deletedCount === 0) {
                 throw new Error('Aucune réservation trouvée pour ces identifiants.');
             }
-    
-            console.log('Suppression réussie avec MongoDB.');
         } catch (error) {
-            console.error('Erreur dans deleteReservation :', error.message);
             throw error;
         }
     }
@@ -83,7 +72,6 @@ class ReservationService {
         try {
             // Vérifiez la validité des ObjectIds
             if (!mongoose.Types.ObjectId.isValid(catwayId) || !mongoose.Types.ObjectId.isValid(reservationId)) {
-                console.warn(`Identifiants invalides : CatwayID (${catwayId}), ReservationID (${reservationId})`);
                 return null;
             }
     
@@ -92,14 +80,8 @@ class ReservationService {
                 _id: reservationId, 
                 catwayId 
             });
-    
-            if (!reservation) {
-                console.warn(`Aucune réservation trouvée pour le Catway ID ${catwayId} avec Réservation ID ${reservationId}`);
-            }
-    
             return reservation;
         } catch (error) {
-            console.error('Erreur dans la méthode getReservationDetails :', error.message);
             throw error;
         }
     }

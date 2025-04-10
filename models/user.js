@@ -19,8 +19,6 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.validatePassword = async function (password) {
-  console.log("Mot de passe fourni :", password); // Mot de passe en clair
-  console.log("Mot de passe stocké (hash) :", this.password); // Hash stocké
 
   if (!password || !this.password) {
     throw new Error('Mot de passe ou hash manquant');

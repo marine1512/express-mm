@@ -8,7 +8,6 @@ exports.getLoginPage = (req, res) => {
 // Gère les connexions utilisateur
 exports.login = async (req, res) => {
   const { username, password } = req.body;
-
   try {
     const { token, newUser } = await authService.login(username, password);
 
@@ -22,7 +21,6 @@ exports.login = async (req, res) => {
 
     res.status(200).json({ message: 'Connexion réussie', user: newUser });
   } catch (error) {
-    console.error('Erreur lors de la connexion :', error.message);
     res.status(error.status || 500).json({ error: error.message });
   }
 };
@@ -30,20 +28,14 @@ exports.login = async (req, res) => {
 // Gère les déconnexions utilisateur
 exports.logout = (req, res) => {
   try {
-    console.log('Déconnexion demandée');
-
-    // Supprime le cookie lié à l'authentification (token)
+// Supprime le cookie lié à l'authentification (token)
     res.clearCookie('token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
     });
-
-    console.log('Utilisateur déconnecté : cookie supprimé.');
-
     res.status(200).json({ message: 'Déconnexion réussie.' });
   } catch (error) {
-    console.error('Erreur lors de la déconnexion :', error.message);
     res.status(500).json({ error: 'Erreur lors de la déconnexion.' });
   }
 };

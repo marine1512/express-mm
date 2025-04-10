@@ -1,5 +1,4 @@
 const ReservationService = require('../services/reservationService');
-const CatwayService = require('../services/catwayService');
 
 class ReservationController {
     static async getAll(req, res) {
@@ -34,15 +33,11 @@ class ReservationController {
 
     static async delete(req, res) {
         try {
-            console.log(`Suppression demandée : Catway ID = ${req.params.id}, Reservation ID = ${req.params.idReservation}`);
-            
-            // Supprimer via le service
+// Supprimer via le service
             await ReservationService.deleteReservation(req.params.id, req.params.idReservation);
-            
-            console.log(`Réservation supprimée avec succès. Redirection vers /catways/${req.params.id}/reservations`);
+
             res.redirect(`/catways/${req.params.id}/reservations`);
         } catch (error) {
-            console.error('Erreur lors de la suppression de la réservation :', error.message);
             res.status(500).send(error.message || 'Erreur serveur');
         }
     }
@@ -50,24 +45,19 @@ class ReservationController {
     static async getDetails(req, res) {
         try {
             const { id, idReservation } = req.params;
-            console.log(`Catway ID: ${id}, Reservation ID: ${idReservation}`); // Log des IDs pour debug
     
             // Appel au service
             const reservation = await ReservationService.getReservationDetails(id, idReservation);
     
             if (!reservation) {
-                console.warn(`Aucune réservation trouvée pour le Catway ID ${id} et Réservation ID ${idReservation}`);
                 return res.status(404).json({ message: "Réservation introuvable pour ce catway" });
             }
-            console.log(`[DEBUG] Données de réservation récupérées :`, reservation);
-
             // Si une réservation est trouvée, rendre la vue
             res.render('reservation-detail', { 
                 reservation,
                 catway: { _id: id }   // Transmettez l'ID du catway
             });
         } catch (err) {
-            console.error('Erreur dans getDetails:', err.message);
             res.status(500).json({ error: 'Erreur serveur' });
         }
     }

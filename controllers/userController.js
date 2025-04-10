@@ -1,6 +1,16 @@
 const UserService = require('../services/userService');
 
+/**
+ * Contrôleur pour gérer les opérations liées aux utilisateurs.
+ */
 class UserController {
+  /**
+   * Récupère tous les utilisateurs.
+   *
+   * @param {Object} req - L'objet de requête Express.
+   * @param {Object} res - L'objet de réponse Express.
+   * @returns {Promise<void>} Promesse résolue une fois que la réponse est envoyée.
+   */
   static async getAllUsers(req, res) {
     try {
       const users = await UserService.getAllUsers();
@@ -10,16 +20,30 @@ class UserController {
     }
   }
 
+  /**
+   * Crée un nouvel utilisateur.
+   *
+   * @param {Object} req - L'objet de requête Express contenant les données utilisateur (username, password).
+   * @param {Object} res - L'objet de réponse Express.
+   * @returns {Promise<void>} Promesse résolue une fois que la réponse est envoyée.
+   */
   static async createUser(req, res) {
     try {
       const { username, password } = req.body;
       await UserService.createUser(username, password);
       res.redirect('/users');
     } catch (error) {
-      res.status(500).send(`Erreur : ${error.message}`);
+      res.status(500).send(`Erreur: ${error.message}`);
     }
   }
 
+  /**
+   * Met à jour un utilisateur existant.
+   *
+   * @param {Object} req - L'objet de requête Express contenant l'ID utilisateur dans les paramètres et les mises à jour dans le corps.
+   * @param {Object} res - L'objet de réponse Express.
+   * @returns {Promise<void>} Promesse résolue une fois que la réponse est envoyée.
+   */
   static async updateUser(req, res) {
     try {
       const { id } = req.params;
@@ -31,6 +55,13 @@ class UserController {
     }
   }
 
+  /**
+   * Supprime un utilisateur.
+   *
+   * @param {Object} req - L'objet de requête Express contenant l'ID utilisateur dans les paramètres.
+   * @param {Object} res - L'objet de réponse Express.
+   * @returns {Promise<void>} Promesse résolue une fois que la réponse est envoyée.
+   */
   static async deleteUser(req, res) {
     try {
       const { id } = req.params;

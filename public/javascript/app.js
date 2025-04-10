@@ -25,9 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json(); // Récupération de la réponse JSON
       console.log("Données reçues du backend :", data);
 
-      // Pas besoin de manipuler directement le token avec les cookies
-      console.log('Connexion réussie, cookie envoyé.');
-
       // Redirection vers la page du tableau de bord
       window.location.href = '/tableau';
       
@@ -47,18 +44,13 @@ window.logout = async () => {
       credentials: 'include', // Inclure les cookies
     });
 
-    console.log('Réponse du serveur logout :', response);
-
     if (!response.ok) {
       throw new Error('Erreur lors de la déconnexion.');
     }
 
-    console.log('Déconnexion réussie.');
-
     // Envoyer l'utilisateur vers une page publique
     window.location.href = '/';
   } catch (error) {
-    console.error('Erreur de déconnexion :', error.message);
     alert('Impossible de se déconnecter.');
   }
 };
