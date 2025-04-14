@@ -12,6 +12,10 @@ const app = express();
 // Connexion à la DB
 connectDB();
 
+  // Configurer le moteur de vues EJS
+  app.set('view engine', 'ejs');
+  app.set('views', './views'); // Dossier des vues EJS
+
 app.use(methodOverride('_method')); // Pour les méthodes PUT et DELETE dans les formulaires
 configureMiddlewares(app, swaggerDocs); // Middleware général venant de config/middlewares
 app.use(cookieParser()); 

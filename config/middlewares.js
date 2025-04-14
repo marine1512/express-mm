@@ -24,9 +24,6 @@ const configureMiddlewares = (app, swaggerDocs) => {
   // Parser les requêtes encodées (comme les formulaires)
   app.use(express.urlencoded({ extended: true }));
 
-  // Configurer le moteur de vues EJS
-  app.set('view engine', 'ejs');
-  app.set('views', './views'); // Dossier des vues EJS
 
   // Serveur de fichiers statiques (CSS, JS, images, etc.)
   app.use(express.static(path.join(__dirname, '../public')));
