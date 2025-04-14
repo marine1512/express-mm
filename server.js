@@ -10,7 +10,7 @@ const methodOverride = require('method-override');
 const cors = require('cors');
 
 const corsOptions = {
-  origin: ['https://express-mm.vercel.app'], // Remplacez par votre URL Vercel
+  origin: ['https://express-mm-vercel.vercel.app/'], // Remplacez par votre URL Vercel
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true // Si vous transférez des cookies
 };
