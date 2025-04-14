@@ -6,6 +6,9 @@ const { connectDB } = require("./config/db"); // Connexion à MongoDB
 require("dotenv").config(); // Chargement des variables d'env
 const authMiddleware = require('./middleware/authMiddleware'); // Authentication middleware
 const methodOverride = require('method-override');
+const cors = require('cors');
+
+app.use(cors());
 
 const app = express();
 
