@@ -40,6 +40,10 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT; // Définition du port, avec une valeur par défaut
 // Lancement du serveur
-app.listen(PORT, () => {
-  console.log(`Serveur Express démarré sur http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Serveur Express démarré sur http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app; // Exporter l'application express pour les tests

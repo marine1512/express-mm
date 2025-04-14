@@ -12,10 +12,9 @@ body{
     cursor: pointer;
 }
 
-.retour > a{
+.no > p > a{
     font-weight: bold;
-    color: white;
-    text-decoration: none;
+    color: #f7ac1c;
 }
 
 .no{
@@ -28,6 +27,6 @@ body{
 }
 
 .no > p{
-    font-size: 5em;
+    font-size: 3em;
 }
 

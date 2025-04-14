@@ -1,0 +1,11 @@
+{
+  "source": {
+    "include": ["services", "controllers"],
+    "excludePattern": "(node_modules|test)"
+  },
+  "opts": {
+    "destination": "./docs",
+    "recurse": true,
+    "template": "templates/default"
+  }
+}

@@ -32,8 +32,8 @@
           <td><%= reservation.catwayNumber %></td>
           <td><%= reservation.clientName %></td>
           <td><%= reservation.boatName %></td>
-          <td><%= reservation.checkIn %></td>
-          <td><%= reservation.checkOut %></td>
+          <td><%= new Date(reservation.checkIn).toLocaleDateString('fr-FR') %></td>
+          <td><%= new Date(reservation.checkOut).toLocaleDateString('fr-FR') %></td>
         </tr>
         <% }); %>
         <% } else { %>

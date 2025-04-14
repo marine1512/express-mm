@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
+    // Ignorer l'authentification en mode test
+    if (process.env.NODE_ENV === 'test') {
+      console.log('Middleware auth ignoré en mode test');
+      return next();
+    };
   const token = req.cookies.token; // Lire le token dans les cookies
 
   if (!token) {

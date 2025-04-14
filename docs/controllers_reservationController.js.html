@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/reservationController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/reservationController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const ReservationService = require('../services/reservationService');
+
+/** 
+ * @module reservationController
+ * @description Controller qui gère les réservations
+*/
+
+class ReservationController {
+    /**
+     * Récupère toutes les réservations et les affiche dans une vue.
+     * @param {Object} req - L'objet de requête Express.
+     * @param {Object} res - L'objet de réponse Express.
+     * @returns {Promise&lt;void>}
+     */
+    static async getAll(req, res) {
+        try {
+            const reservations = await ReservationService.getAllReservations();
+            res.render('reservation-liste', { reservations });
+        } catch (error) {
+            res.status(500).json({ message: 'Erreur lors de la récupération des réservations', error });
+        }
+    }
+
+    /**
+     * Récupère les réservations associées à un catway spécifique.
+     * @param {Object} req - L'objet de requête Express (inclut req.params.id).
+     * @param {Object} res - L'objet de réponse Express.
+     * @returns {Promise&lt;void>}
+     */
+    static async getForCatway(req, res) {
+        try {
+            const catway = await ReservationService.getReservationsForCatway(req.params.id);
+            res.render('reservations', {
+                catway,
+                reservations: catway.reservationId,
+            });
+        } catch (error) {
+            res.status(500).send('Erreur lors de la récupération des réservations.');
+        }
+    }
+
+    /**
+     * Crée une nouvelle réservation pour un catway.
+     * @param {Object} req - L'objet de requête Express (inclut req.params.id et req.body).
+     * @param {Object} res - L'objet de réponse Express.
+     * @returns {Promise&lt;void>}
+     */
+    static async create(req, res) {
+        try {
+            const newReservation = await ReservationService.addReservation(req.params.id, req.body);
+            res.redirect(`/catways/${req.params.id}/reservations`);
+        } catch (error) {
+            res.status(500).send('Erreur lors de la création de la réservation.');
+        }
+    }
+
+    /**
+     * Supprime une réservation spécifique associée à un catway.
+     * @param {Object} req - L'objet de requête Express (inclut req.params.id et req.params.idReservation).
+     * @param {Object} res - L'objet de réponse Express.
+     * @returns {Promise&lt;void>}
+     */
+    static async delete(req, res) {
+        try {
+            // Supprimer via le service
+            await ReservationService.deleteReservation(req.params.id, req.params.idReservation);
+
+            res.redirect(`/catways/${req.params.id}/reservations`);
+        } catch (error) {
+            res.status(500).send(error.message || 'Erreur serveur');
+        }
+    }
+
+    /**
+     * Récupère les détails d'une réservation spécifique pour un catway.
+     * @param {Object} req - L'objet de requête Express (inclut req.params.id et req.params.idReservation).
+     * @param {Object} res - L'objet de réponse Express.
+     * @returns {Promise&lt;void>}
+     */
+    static async getDetails(req, res) {
+        try {
+            const { id, idReservation } = req.params;
+    
+            // Appel au service
+            const reservation = await ReservationService.getReservationDetails(id, idReservation);
+    
+            if (!reservation) {
+                return res.status(404).json({ message: "Réservation introuvable pour ce catway" });
+            }
+            // Si une réservation est trouvée, rendre la vue
+            res.render('reservation-detail', { 
+                reservation,
+                catway: { _id: id }   // Transmettez l'ID du catway
+            });
+        } catch (err) {
+            res.status(500).json({ error: 'Erreur serveur' });
+        }
+    }
+}
+
+module.exports = ReservationController;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-authController.html">authController</a></li><li><a href="module-authServices.html">authServices</a></li><li><a href="module-catwayController.html">catwayController</a></li><li><a href="module-catwaysServices.html">catwaysServices</a></li><li><a href="module-reservationController.html">reservationController</a></li><li><a href="module-reservationServices.html">reservationServices</a></li><li><a href="module-userController.html">userController</a></li><li><a href="module-userServices.html">userServices</a></li></ul><h3>Classes</h3><ul><li><a href="module-catwayController-CatwayController.html">CatwayController</a></li><li><a href="module-catwayController-CatwayService.html">CatwayService</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Fri Apr 11 2025 17:04:38 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

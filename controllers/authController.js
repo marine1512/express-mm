@@ -1,11 +1,32 @@
 const authService = require('../services/authService'); // Import du service approprié
 
-// Affiche le formulaire de connexion
+/** 
+ * @module authController
+ * @category Controllers
+ * @description Controller qui gère les catways
+*/
+
+/**
+ * Récupère et affiche la page de connexion.
+ * @function
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ */
 exports.getLoginPage = (req, res) => {
   res.render('login'); // Renvoie la vue de connexion
 };
 
-// Gère les connexions utilisateur
+/**
+ * Authentifie un utilisateur avec les identifiants fournis et configure un cookie contenant le token.
+ * @function
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} req.body - Le corps de la requête contenant les identifiants de connexion.
+ * @param {string} req.body.username - Nom d'utilisateur fourni par le client.
+ * @param {string} req.body.password - Mot de passe fourni par le client.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise<void>} Renvoie une réponse JSON avec le statut de la connexion ou une erreur.
+ */
 exports.login = async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -25,10 +46,16 @@ exports.login = async (req, res) => {
   }
 };
 
-// Gère les déconnexions utilisateur
+/**
+ * Déconnecte l'utilisateur en supprimant le cookie contenant le token d'authentification.
+ * @function
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {void} Renvoie une réponse JSON indiquant si la déconnexion a réussi ou une erreur.
+ */
 exports.logout = (req, res) => {
   try {
-// Supprime le cookie lié à l'authentification (token)
+    // Supprime le cookie lié à l'authentification (token)
     res.clearCookie('token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

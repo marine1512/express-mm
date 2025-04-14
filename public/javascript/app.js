@@ -35,6 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+e=true;
+function passWord() {
+  if(e){
+    document.getElementById('password').setAttribute('type', "text");
+    document.getElementById('pass-icon').src = '/image/eye.png';
+    e = false;
+  }
+  else {
+    document.getElementById('password').setAttribute('type', "password");
+    document.getElementById('pass-icon').src = '/image/hide.png';
+    e = true;
+  }
+  
+}
+
 // Fonction de déconnexion
 window.logout = async () => {
   try {

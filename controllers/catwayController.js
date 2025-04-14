@@ -1,6 +1,19 @@
 const catwayService = require('../services/catwayService');
 const Catway = require('../models/catway');
 
+/** 
+ * @module catwayController
+ * @description Controller qui gère les catways
+*/
+
+/**
+ * Récupère toutes les catways et les rend à la vue 'catways'.
+ *
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise<void>}
+ */
 const getAllCatways = async (req, res) => {
     try {
         const catways = await catwayService.getAllCatways();
@@ -10,6 +23,14 @@ const getAllCatways = async (req, res) => {
     }
 };
 
+/**
+ * Récupère une catway par son ID et la rend à la vue 'catway-detail'.
+ *
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise<void>}
+ */
 const getCatwayById = async (req, res) => {
     const { id } = req.params;
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
@@ -32,6 +53,14 @@ const getCatwayById = async (req, res) => {
     }
 };
 
+/**
+ * Crée une nouvelle catway et redirige vers la liste des catways.
+ *
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise<void>}
+ */
 const createCatway = async (req, res) => {
     const { catwayNumber, type, catwayState } = req.body;
 
@@ -47,6 +76,14 @@ const createCatway = async (req, res) => {
     }
 };
 
+/**
+ * Met à jour une catway par son ID.
+ *
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise<void>}
+ */
 const updateCatway = async (req, res) => {
     const { id } = req.params;
     try {
@@ -60,6 +97,14 @@ const updateCatway = async (req, res) => {
     }
 };
 
+/**
+ * Supprime une catway par son ID.
+ *
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise<void>}
+ */
 const deleteCatway = async (req, res) => {
     const { id } = req.params;
     try {
@@ -73,13 +118,29 @@ const deleteCatway = async (req, res) => {
     }
 };
 
+/**
+ * Service pour gérer les opérations sur les catways.
+ */
 class CatwayService {
-    // Récupérer les détails d'un catway
+    /**
+     * Récupère les détails d'un catway par son ID.
+     *
+     * @async
+     * @param {string} catwayId - L'ID de la catway.
+     * @returns {Promise<Object>} La catway correspondante ou `null` si elle n'existe pas.
+     */
     static async getCatwayDetails(catwayId) {
         return await Catway.findById(catwayId);
     }
 
-    // Mettre à jour un Catway
+    /**
+     * Met à jour un catway par son ID.
+     *
+     * @async
+     * @param {string} catwayId - L'ID de la catway.
+     * @param {Object} updateData - Les données mises à jour.
+     * @returns {Promise<Object>} La catway mise à jour ou `null` si elle n'existe pas.
+     */
     static async updateCatway(catwayId, updateData) {
         return await Catway.findByIdAndUpdate(
             catwayId,
@@ -89,7 +150,18 @@ class CatwayService {
     }
 }
 
+/**
+ * Contrôleur pour les opérations sur les catways.
+ */
 class CatwayController {
+    /**
+     * Met à jour une catway par son ID.
+     *
+     * @async
+     * @param {Object} req - L'objet de requête HTTP.
+     * @param {Object} res - L'objet de réponse HTTP.
+     * @returns {Promise<void>}
+     */
     static async update(req, res) {
         try {
             const updatedCatway = await catwayService.updateCatway(req.params.id, req.body);

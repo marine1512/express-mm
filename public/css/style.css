@@ -37,6 +37,16 @@ button{
 p > a{
     color: white;
 }
+.password{
+    position: relative;
+}
+
+.password > #pass-icon{
+    width: 1.5em;
+    position: absolute;
+    right: 7%;
+    top: 25%;
+}
 
 .api{
     margin-top: 1em;

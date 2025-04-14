@@ -39,6 +39,16 @@ footer {
   color: #fff;
 }
 
+.header3{
+  background: #0d2142;
+  color: #fff;
+  display: flex;
+  border-bottom: 2px dashed white;
+  padding: 1em 0;
+  text-align: center;
+  justify-content: space-evenly;
+}
+
 #logoutButton, #loginButton{
   background-color: #0d2142;
   border-radius: 50%;

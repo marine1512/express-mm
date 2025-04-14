@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/catwayController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/catwayController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const catwayService = require('../services/catwayService');
+const Catway = require('../models/catway');
+
+/** 
+ * @module catwayController
+ * @description Controller qui gère les catways
+*/
+
+/**
+ * Récupère toutes les catways et les rend à la vue 'catways'.
+ *
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise&lt;void>}
+ */
+const getAllCatways = async (req, res) => {
+    try {
+        const catways = await catwayService.getAllCatways();
+        res.render('catways', { catways });
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur lors de la récupération des catways', error });
+    }
+};
+
+/**
+ * Récupère une catway par son ID et la rend à la vue 'catway-detail'.
+ *
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise&lt;void>}
+ */
+const getCatwayById = async (req, res) => {
+    const { id } = req.params;
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+        return res.status(400).json({ 
+            message: 'ID invalide. Un ObjectId MongoDB valide est requis.' 
+        });
+    }
+
+    try {
+        const catway = await catwayService.getCatwayById(id);
+        if (!catway) {
+            return res.status(404).json({ message: 'Catway non trouvée.' });
+        }
+        res.render('catway-detail', { catway });
+    } catch (error) {
+        res.status(500).json({ 
+            message: 'Erreur interne du serveur',
+            error: error.message 
+        });
+    }
+};
+
+/**
+ * Crée une nouvelle catway et redirige vers la liste des catways.
+ *
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise&lt;void>}
+ */
+const createCatway = async (req, res) => {
+    const { catwayNumber, type, catwayState } = req.body;
+
+    if (!catwayNumber) {
+        return res.status(400).json({ message: 'Le champ Numéro est obligatoire.' });
+    }
+
+    try {
+        await catwayService.createCatway({ catwayNumber, type, catwayState });
+        res.redirect('/catways');
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur lors de la création de la Catway.', error });
+    }
+};
+
+/**
+ * Met à jour une catway par son ID.
+ *
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise&lt;void>}
+ */
+const updateCatway = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const updatedCatway = await catwayService.updateCatwayById(id, req.body);
+        if (!updatedCatway) {
+            return res.status(404).send('Catway introuvable');
+        }
+        res.render('catway-detail', { catway: updatedCatway });
+    } catch (error) {
+        res.status(500).send('Erreur serveur lors de la mise à jour');
+    }
+};
+
+/**
+ * Supprime une catway par son ID.
+ *
+ * @async
+ * @param {Object} req - L'objet de requête HTTP.
+ * @param {Object} res - L'objet de réponse HTTP.
+ * @returns {Promise&lt;void>}
+ */
+const deleteCatway = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deletedCatway = await catwayService.deleteCatwayById(id);
+        if (!deletedCatway) {
+            return res.status(404).json({ message: 'Catway non trouvée' });
+        }
+        res.redirect('/catways');
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur lors de la suppression de la catway', error });
+    }
+};
+
+/**
+ * Service pour gérer les opérations sur les catways.
+ */
+class CatwayService {
+    /**
+     * Récupère les détails d'un catway par son ID.
+     *
+     * @async
+     * @param {string} catwayId - L'ID de la catway.
+     * @returns {Promise&lt;Object>} La catway correspondante ou `null` si elle n'existe pas.
+     */
+    static async getCatwayDetails(catwayId) {
+        return await Catway.findById(catwayId);
+    }
+
+    /**
+     * Met à jour un catway par son ID.
+     *
+     * @async
+     * @param {string} catwayId - L'ID de la catway.
+     * @param {Object} updateData - Les données mises à jour.
+     * @returns {Promise&lt;Object>} La catway mise à jour ou `null` si elle n'existe pas.
+     */
+    static async updateCatway(catwayId, updateData) {
+        return await Catway.findByIdAndUpdate(
+            catwayId,
+            { $set: updateData },
+            { new: true }
+        );
+    }
+}
+
+/**
+ * Contrôleur pour les opérations sur les catways.
+ */
+class CatwayController {
+    /**
+     * Met à jour une catway par son ID.
+     *
+     * @async
+     * @param {Object} req - L'objet de requête HTTP.
+     * @param {Object} res - L'objet de réponse HTTP.
+     * @returns {Promise&lt;void>}
+     */
+    static async update(req, res) {
+        try {
+            const updatedCatway = await catwayService.updateCatway(req.params.id, req.body);
+            if (!updatedCatway) return res.status(404).send("Catway not found");
+            res.redirect('/catways');
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+}
+
+module.exports = {
+    getAllCatways,
+    getCatwayById,
+    createCatway,
+    updateCatway,
+    deleteCatway,
+    CatwayService,
+    CatwayController
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-authController.html">authController</a></li><li><a href="module-authServices.html">authServices</a></li><li><a href="module-catwayController.html">catwayController</a></li><li><a href="module-catwaysServices.html">catwaysServices</a></li><li><a href="module-reservationController.html">reservationController</a></li><li><a href="module-reservationServices.html">reservationServices</a></li><li><a href="module-userController.html">userController</a></li><li><a href="module-userServices.html">userServices</a></li></ul><h3>Classes</h3><ul><li><a href="module-catwayController-CatwayController.html">CatwayController</a></li><li><a href="module-catwayController-CatwayService.html">CatwayService</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Fri Apr 11 2025 17:04:38 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

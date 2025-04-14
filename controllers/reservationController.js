@@ -1,6 +1,17 @@
 const ReservationService = require('../services/reservationService');
 
+/** 
+ * @module reservationController
+ * @description Controller qui gère les réservations
+*/
+
 class ReservationController {
+    /**
+     * Récupère toutes les réservations et les affiche dans une vue.
+     * @param {Object} req - L'objet de requête Express.
+     * @param {Object} res - L'objet de réponse Express.
+     * @returns {Promise<void>}
+     */
     static async getAll(req, res) {
         try {
             const reservations = await ReservationService.getAllReservations();
@@ -10,6 +21,12 @@ class ReservationController {
         }
     }
 
+    /**
+     * Récupère les réservations associées à un catway spécifique.
+     * @param {Object} req - L'objet de requête Express (inclut req.params.id).
+     * @param {Object} res - L'objet de réponse Express.
+     * @returns {Promise<void>}
+     */
     static async getForCatway(req, res) {
         try {
             const catway = await ReservationService.getReservationsForCatway(req.params.id);
@@ -22,6 +39,12 @@ class ReservationController {
         }
     }
 
+    /**
+     * Crée une nouvelle réservation pour un catway.
+     * @param {Object} req - L'objet de requête Express (inclut req.params.id et req.body).
+     * @param {Object} res - L'objet de réponse Express.
+     * @returns {Promise<void>}
+     */
     static async create(req, res) {
         try {
             const newReservation = await ReservationService.addReservation(req.params.id, req.body);
@@ -31,9 +54,15 @@ class ReservationController {
         }
     }
 
+    /**
+     * Supprime une réservation spécifique associée à un catway.
+     * @param {Object} req - L'objet de requête Express (inclut req.params.id et req.params.idReservation).
+     * @param {Object} res - L'objet de réponse Express.
+     * @returns {Promise<void>}
+     */
     static async delete(req, res) {
         try {
-// Supprimer via le service
+            // Supprimer via le service
             await ReservationService.deleteReservation(req.params.id, req.params.idReservation);
 
             res.redirect(`/catways/${req.params.id}/reservations`);
@@ -41,7 +70,13 @@ class ReservationController {
             res.status(500).send(error.message || 'Erreur serveur');
         }
     }
-    
+
+    /**
+     * Récupère les détails d'une réservation spécifique pour un catway.
+     * @param {Object} req - L'objet de requête Express (inclut req.params.id et req.params.idReservation).
+     * @param {Object} res - L'objet de réponse Express.
+     * @returns {Promise<void>}
+     */
     static async getDetails(req, res) {
         try {
             const { id, idReservation } = req.params;
@@ -61,7 +96,6 @@ class ReservationController {
             res.status(500).json({ error: 'Erreur serveur' });
         }
     }
-
 }
 
 module.exports = ReservationController;

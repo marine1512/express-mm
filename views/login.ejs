@@ -13,7 +13,11 @@
         <form action="/login" method="POST" id="loginForm">
             <label>Pseudo: </label><input id="username" type="text" name="username" required />
             <br>
-            <label>Mot de passe: </label><input id="password" type="password" name="password" required />
+            <div class="password">
+                <label>Mot de passe: </label><input id="password" type="password" name="password" required />
+                <img src="/image/hide.png" alt="" onclick="passWord()" id="pass-icon">
+            </div>
+
             <br>
             <button type="submit">Se connecter</button>
         </form>

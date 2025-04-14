@@ -4,6 +4,11 @@ const swaggerUi = require('swagger-ui-express'); // Swagger : Documentation API
 
 // Fonction pour configurer les middlewares
 const configureMiddlewares = (app, swaggerDocs) => {
+  // Middleware pour ignorer l'authentification en mode test
+  if (process.env.NODE_ENV === 'test') {
+    console.log('Mode test : Ignorer les authentifications.');
+  }
+
   // Intégration de Swagger : affichage interactif de la documentation API
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
