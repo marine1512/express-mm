@@ -12,6 +12,9 @@ app.use(cors());
 
 const app = express();
 
+  // Parser les requêtes JSON
+  app.use(express.json());
+
 // Connexion à la DB
 connectDB();
 

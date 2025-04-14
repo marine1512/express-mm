@@ -18,8 +18,6 @@ const configureMiddlewares = (app, swaggerDocs) => {
     next(); // Passe au middleware suivant ou à la route
   });
 
-  // Parser les requêtes JSON
-  app.use(express.json());
 
   // Parser les requêtes encodées (comme les formulaires)
   app.use(express.urlencoded({ extended: true }));
