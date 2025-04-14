@@ -2,6 +2,7 @@ const express = require("express");
 const swaggerDocs = require('./config/swagger-config'); // Swagger configuration
 const cookieParser = require('cookie-parser');
 const configureMiddlewares = require('./config/middlewares'); // Middlewares globaux
+const path = require('path');
 const { connectDB } = require("./config/db"); // Connexion à MongoDB
 require("dotenv").config(); // Chargement des variables d'env
 const authMiddleware = require('./middleware/authMiddleware'); // Authentication middleware
