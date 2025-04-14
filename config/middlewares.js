@@ -24,9 +24,8 @@ const configureMiddlewares = (app, swaggerDocs) => {
   // Parser les requêtes encodées (comme les formulaires)
   app.use(express.urlencoded({ extended: true }));
 
-
-  // Serveur de fichiers statiques (CSS, JS, images, etc.)
-  app.use(express.static(path.join(__dirname, '../public')));
+    // Serveur de fichiers statiques (CSS, JS, images, etc.)
+    app.use(express.static(path.join(__dirname, '../public')));
 };
 
 module.exports = configureMiddlewares;
