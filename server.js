@@ -18,7 +18,7 @@ app.use(cors());
 connectDB();
 
   // Serveur de fichiers statiques (CSS, JS, images, etc.)
-  app.use(express.static(path.join(__dirname, '../public')));
+  app.use(express.static(path.resolve(__dirname, '../public')));
 
   // Configurer le moteur de vues EJS
   app.set('view engine', 'ejs');
