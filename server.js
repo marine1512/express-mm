@@ -8,9 +8,8 @@ const authMiddleware = require('./middleware/authMiddleware'); // Authentication
 const methodOverride = require('method-override');
 const cors = require('cors');
 
-app.use(cors());
-
 const app = express();
+app.use(cors());
 
   // Parser les requêtes JSON
   app.use(express.json());
