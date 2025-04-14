@@ -9,8 +9,16 @@ const authMiddleware = require('./middleware/authMiddleware'); // Authentication
 const methodOverride = require('method-override');
 const cors = require('cors');
 
+const corsOptions = {
+  origin: ['https://express-c0r30n22p-marine1512s-projects.vercel.app/'], // Remplacez par votre URL Vercel
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true // Si vous transférez des cookies
+};
+
+app.use(cors(corsOptions));
+
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 
   // Parser les requêtes JSON
   app.use(express.json());
