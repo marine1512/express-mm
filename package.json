@@ -43,6 +43,6 @@
     "swagger-ui-express": "^5.0.1"
   },
   "engines": {
-    "node": "^23.11.0"
+    "node": "22.x" 
   }
 }
