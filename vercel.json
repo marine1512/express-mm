@@ -13,9 +13,17 @@
     }
   ],
   "rewrites": [
-    {
-      "source": "/api-docs",
-      "destination": "/api-docs/"
-    }
-  ]
+        {
+          "source": "/api-docs/swagger-ui-bundle.js",
+          "destination": "/node_modules/swagger-ui-dist/swagger-ui-bundle.js"
+        },
+        {
+          "source": "/api-docs/swagger-ui-standalone-preset.js",
+          "destination": "/node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js"
+        },
+        {
+          "source": "/api-docs/swagger-ui.css",
+          "destination": "/node_modules/swagger-ui-dist/swagger-ui.css"
+        }
+      ]
 }
