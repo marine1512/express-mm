@@ -8,6 +8,10 @@
   ],
   "rewrites": [
     {
+      "src": "/swagger/(.*)", 
+      "dest": "/public/swagger/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "server.js"
     },
