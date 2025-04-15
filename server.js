@@ -1,6 +1,6 @@
 const express = require("express");
 const swaggerDocs = require('./config/swagger-config'); // Swagger configuration
-const swaggerUi = require('swagger-ui-express'); // Swagger : Documentation API
+const swaggerMiddleware = require('./config/swagger-ui'); 
 const cookieParser = require('cookie-parser');
 const configureMiddlewares = require('./middleware/middlewares'); // Middlewares globaux
 const path = require('path');
@@ -18,6 +18,7 @@ const corsOptions = {
 
 
 const app = express();
+swaggerMiddleware(app);
 app.use(cors(corsOptions));
 
   // Parser les requêtes JSON
@@ -25,12 +26,6 @@ app.use(cors(corsOptions));
 
 // Connexion à la DB
 connectDB();
-
-// Servir les fichiers statiques pour Swagger depuis le dossier public
-app.use('/swagger', express.static(path.join(__dirname, 'public/swagger')));
-  // Intégration de Swagger : affichage interactif de la documentation API
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
 
   // Serveur de fichiers statiques (CSS, JS, images, etc.)
   app.use(express.static(path.join(__dirname, 'public')));
