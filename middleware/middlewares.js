@@ -1,6 +1,5 @@
 const express = require('express'); // Importer Express
 const path = require('path'); // Pour gérer les chemins de fichiers
-const swaggerUi = require('swagger-ui-express'); // Swagger : Documentation API
 
 // Fonction pour configurer les middlewares
 const configureMiddlewares = (app, swaggerDocs) => {
@@ -9,8 +8,6 @@ const configureMiddlewares = (app, swaggerDocs) => {
     console.log('Mode test : Ignorer les authentifications.');
   }
 
-  // Intégration de Swagger : affichage interactif de la documentation API
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
   // Middleware global : Logger les requêtes entrantes
   app.use((req, res, next) => {

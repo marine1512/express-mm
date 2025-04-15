@@ -1,7 +1,8 @@
 const express = require("express");
 const swaggerDocs = require('./config/swagger-config'); // Swagger configuration
+const swaggerUi = require('swagger-ui-express'); // Swagger : Documentation API
 const cookieParser = require('cookie-parser');
-const configureMiddlewares = require('./config/middlewares'); // Middlewares globaux
+const configureMiddlewares = require('./middleware/middlewares'); // Middlewares globaux
 const path = require('path');
 const { connectDB } = require("./config/db"); // Connexion à MongoDB
 require("dotenv").config(); // Chargement des variables d'env
@@ -24,6 +25,9 @@ app.use(cors(corsOptions));
 
 // Connexion à la DB
 connectDB();
+
+  // Intégration de Swagger : affichage interactif de la documentation API
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
   // Serveur de fichiers statiques (CSS, JS, images, etc.)
   app.use(express.static(path.join(__dirname, 'public')));
