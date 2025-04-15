@@ -31,7 +31,7 @@ const swaggerMiddleware = (app) => {
   // Configuration de Swagger UI
   const swaggerUiOptions = {
     customCssUrl: '/swagger/swagger-ui.css',  // Chargement de CSS personnalisé
-    swaggerUrl: '/swagger.json',             // Chemin pour télécharger le fichier JSON Swagger
+    swaggerUrl: 'https://express-mm.vercel.app/swagger.json',             // Chemin pour télécharger le fichier JSON Swagger
   };
 
   // Intégration de Swagger UI à l'application
