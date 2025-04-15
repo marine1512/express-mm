@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       // Envoyer la requête au backend pour le login
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json', // Définir le type de contenu
@@ -54,7 +54,7 @@ function passWord() {
 window.logout = async () => {
   try {
     // Envoyer une requête POST au backend
-    const response = await fetch('http://localhost:3000/logout', {
+    const response = await fetch(`${API_BASE_URL}/logout`, {
       method: 'POST',
       credentials: 'include', // Inclure les cookies
     });
