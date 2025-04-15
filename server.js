@@ -58,12 +58,19 @@ app.use((req, res) => {
   res.status(404).render('404');
 });
 
-const PORT = process.env.PORT; // Définition du port, avec une valeur par défaut
-// Lancement du serveur
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-    console.log(`Serveur Express démarré sur http://localhost:${PORT}`);
-  });
-}
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('[Error Handler]', err.stack); // Log the error stack
+  res.status(500).send('Internal Server Error'); // Send a generic error response
+});
+
+// Ensure the server starts correctly
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+}).on('error', (err) => {
+  console.error('[Server Error]', err.message); // Log server startup errors
+  process.exit(1); // Exit the process with failure status
+});
 
 module.exports = app; // Exporter l'application express pour les tests
