@@ -6,22 +6,10 @@
       "use": "@vercel/node"
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "server.js"
-    },
-    {
-      "source": "/api-docs/swagger-ui-bundle.js",
-      "destination": "/public/swagger/swagger-ui-bundle.js"
-    },
-    {
-      "source": "/api-docs/swagger-ui-standalone-preset.js",
-      "destination": "/public/swagger/swagger-ui-standalone-preset.js"
-    },
-    {
-      "source": "/api-docs/swagger-ui.css",
-      "destination": "/public/swagger/swagger-ui.css"
+      "src": "/(.*)",
+      "dest": "/server.js"
     }
   ]
 }
