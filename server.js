@@ -23,8 +23,7 @@ app.use(cors(corsOptions));
   app.use(express.json());
 
 // Connexion à la DB
-const dbURI = process.env.DATABASE_URI; // Utilisation de la variable d'environnement
-connectDB(dbURI);
+connectDB();
 
   // Serveur de fichiers statiques (CSS, JS, images, etc.)
   app.use(express.static(path.join(__dirname, 'public')));
@@ -59,7 +58,7 @@ app.use((req, res) => {
   res.status(404).render('404');
 });
 
-const PORT = process.env.PORT || 3000; // Ajout d'une valeur par défaut pour le port
+const PORT = process.env.PORT; // Définition du port, avec une valeur par défaut
 // Lancement du serveur
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
