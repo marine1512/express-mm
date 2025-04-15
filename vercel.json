@@ -8,20 +8,20 @@
   ],
   "rewrites": [
     {
-      "src": "/swagger/(.*)",
-      "dest": "/public/swagger/$1"
+      "source": "/(.*)",
+      "destination": "server.js"
     },
     {
-      "src": "/api-docs/(.*)",
-      "dest": "/server.js"
+      "source": "/api-docs/swagger-ui-bundle.js",
+      "destination": "/public/swagger/swagger-ui-bundle.js"
     },
     {
-      "src": "/api-docs",
-      "dest": "/server.js"
+      "source": "/api-docs/swagger-ui-standalone-preset.js",
+      "destination": "/public/swagger/swagger-ui-standalone-preset.js"
     },
     {
-      "src": "/swagger.json",
-      "dest": "/server.js"
+      "source": "/api-docs/swagger-ui.css",
+      "destination": "/public/swagger/swagger-ui.css"
     }
   ]
 }
