@@ -26,6 +26,8 @@ app.use(cors(corsOptions));
 // Connexion à la DB
 connectDB();
 
+// Servir les fichiers statiques pour Swagger depuis le dossier public
+app.use('/swagger', express.static(path.join(__dirname, 'public/swagger')));
   // Intégration de Swagger : affichage interactif de la documentation API
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
