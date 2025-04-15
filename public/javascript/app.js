@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const API_BASE_URL = 
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:3000' // Pour le développement local
+    : 'https://express-mm.vercel.app/'; // Pour la production
+
+    
   document.getElementById('loginForm').addEventListener('submit', async (event) => {
     event.preventDefault(); // Empêche le rechargement de la page
 

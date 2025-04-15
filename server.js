@@ -68,11 +68,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('Internal Server Error'); // Send a generic error response
 });
 
-const API_BASE_URL = 
-  window.location.hostname === 'localhost'
-    ? 'http://localhost:3000' // Pour le développement local
-    : 'https://express-mm.vercel.app/'; // Pour la production
-
     
 // Ensure the server starts correctly
 const PORT = process.env.PORT || 3000;
