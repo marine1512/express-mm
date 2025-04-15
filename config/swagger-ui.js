@@ -19,23 +19,14 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 // Middleware pour Swagger
 const swaggerMiddleware = (app) => {
-  // Servir les fichiers statiques Swagger (CSS/JS)
-  app.use('/swagger', express.static(path.join(__dirname, '../public/swagger')));
-
-  // Route pour générer dynamiquement le JSON Swagger
+  // Route pour générer dynamiquement le fichier JSON Swagger
   app.get('/swagger.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-    res.send(swaggerDocs); // Génération dynamique des spécifications OpenAPI
+    res.send(swaggerDocs);
   });
 
-  // Configuration de Swagger UI
-  const swaggerUiOptions = {
-    customCssUrl: '/swagger/swagger-ui.css',  // Chargement de CSS personnalisé
-    swaggerUrl: 'https://express-mm.vercel.app/swagger.json',             // Chemin pour télécharger le fichier JSON Swagger
-  };
-
-  // Intégration de Swagger UI à l'application
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, swaggerUiOptions));
+  // Intégration de Swagger UI sans gestion manuelle des fichiers CSS/JS
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 };
 
 module.exports = swaggerMiddleware;
