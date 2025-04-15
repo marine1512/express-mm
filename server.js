@@ -23,7 +23,8 @@ app.use(cors(corsOptions));
   app.use(express.json());
 
 // Connexion à la DB
-connectDB();
+const dbURI = process.env.DATABASE_URI; // Utilisation de la variable d'environnement
+connectDB(dbURI);
 
   // Serveur de fichiers statiques (CSS, JS, images, etc.)
   app.use(express.static(path.join(__dirname, 'public')));
