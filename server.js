@@ -26,8 +26,10 @@ app.use(cors(corsOptions));
 // Connexion à la DB
 connectDB();
 
+app.get('/api-docs', (req, res) => res.redirect(301, '/api-docs/'));
   // Intégration de Swagger : affichage interactif de la documentation API
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 
   // Serveur de fichiers statiques (CSS, JS, images, etc.)
   app.use(express.static(path.join(__dirname, 'public')));
