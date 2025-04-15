@@ -6,6 +6,7 @@ const connectDB = async () => {
     mongoose.set('strictQuery', false); // Éviter les avertissements
     await mongoose.connect(process.env.DATABASE_URI, { // Utilisation de DATABASE_URI depuis .env
     });
+    console.log("✅ Connexion réussie à MongoDB !");
   } catch (err) {
     process.exit(1); // Quitter l'application en cas d'échec
   }
