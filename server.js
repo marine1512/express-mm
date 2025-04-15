@@ -58,7 +58,7 @@ app.use((req, res) => {
   res.status(404).render('404');
 });
 
-const PORT = process.env.PORT; // Définition du port, avec une valeur par défaut
+const PORT = process.env.PORT || 3000; // Ajout d'une valeur par défaut pour le port
 // Lancement du serveur
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
