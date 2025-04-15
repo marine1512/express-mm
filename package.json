@@ -29,7 +29,8 @@
     "mocha": "^11.1.0",
     "mongoose": "^8.13.0",
     "multer": "^1.4.5-lts.1",
-    "save-dev": "^0.0.1-security"
+    "save-dev": "^0.0.1-security",
+    "vercel": "^41.6.0"
   },
   "devDependencies": {
     "better-docs": "^2.7.3",
