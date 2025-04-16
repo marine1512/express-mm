@@ -13,6 +13,7 @@ const swaggerOptions = {
     },
   },
   apis: [path.join(__dirname, '../routes/*.js')], // Adaptation du chemin selon vos fichiers annotés
+  url: '/swagger.json' // Utilisation directe du fichier JSON pour Swagger
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
