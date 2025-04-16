@@ -1,7 +1,8 @@
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const path = require('path');
 
-// Configuration générale de Swagger-jsdoc
+// Configuration des options Swagger
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
@@ -11,17 +12,21 @@ const swaggerOptions = {
       description: 'Documentation de mon API',
     },
   },
-  apis: ['./routes/*.js'], // Adapter le chemin selon l'endroit où se trouvent vos routes
+  apis: [path.join(__dirname, '../routes/*.js')], // Adaptation du chemin selon vos fichiers annotés
 };
+
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
-// Middleware pour Swagger
+// Middleware Swagger
 const swaggerMiddleware = (app) => {
-  // Route pour générer dynamiquement le fichier JSON Swagger
+  // Route pour le JSON Swagger
   app.get('/swagger.json', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerDocs);
   });
+
+  // Route pour Swagger UI
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 };
 
 module.exports = swaggerMiddleware;

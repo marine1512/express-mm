@@ -1,4 +1,7 @@
 const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const path = require('path');
+
 
 const swaggerOptions = {
   definition: {
@@ -11,6 +14,7 @@ const swaggerOptions = {
   },
   apis: ['./routes/*.js'], // Analyser toutes les routes dans le dossier `routes/`
 };
+
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 module.exports = swaggerDocs;
