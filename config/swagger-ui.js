@@ -22,12 +22,6 @@ const swaggerMiddleware = (app) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerDocs);
   });
-
-    // Servir les fichiers statiques nécessaires à Swagger UI
-    app.use('/swagger-ui', express.static(path.join(__dirname, '../node_modules/swagger-ui-dist')));
-
-  // Intégration de Swagger UI sans gestion manuelle des fichiers CSS/JS
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 };
 
 module.exports = swaggerMiddleware;
