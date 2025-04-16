@@ -1,4 +1,17 @@
 const jwt = require('jsonwebtoken');
+const app = require('express')();
+
+// Exclure Swagger et ses fichiers statiques du middleware d'authentification
+app.use((req, res, next) => {
+  if (
+    req.path.startsWith('/api-docs') ||
+    req.path.startsWith('/swagger.json') ||
+    req.path.startsWith('/swagger-ui')
+  ) {
+    return next(); // Passer directement à la route suivante
+  }
+  authMiddleware(req, res, next); // Appliquer l'authentification pour les autres routes
+});
 
 const authMiddleware = (req, res, next) => {
     // Ignorer l'authentification en mode test
