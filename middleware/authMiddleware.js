@@ -6,7 +6,9 @@ app.use((req, res, next) => {
   if (
     req.path.startsWith('/api-docs') ||
     req.path.startsWith('/swagger.json') ||
-    req.path.startsWith('/api-docs-static')
+    req.path.startsWith('/api-docs-static'
+      
+    )
   ) {
     return next(); // Passer directement à la route suivante
   }
