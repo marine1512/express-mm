@@ -9,20 +9,6 @@ const authMiddleware = require('./middleware/authMiddleware'); // Authentication
 const methodOverride = require('method-override');
 const cors = require('cors');
 
-// Exclure Swagger et ses fichiers statiques du middleware d'authentification
-app.use((req, res, next) => {
-  if (
-    req.path.startsWith('/api-docs') ||
-    req.path.startsWith('/swagger.json') ||
-    req.path.startsWith('/api-docs-static'
-      
-    )
-  ) {
-    return next(); // Passer directement à la route suivante
-  }
-  authMiddleware(req, res, next); // Appliquer l'authentification pour les autres routes
-});
-
 const corsOptions = {
   origin: ['https://express-mm-vercel.vercel.app/'], // Remplacez par votre URL Vercel
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
