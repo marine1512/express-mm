@@ -1,6 +1,8 @@
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 const path = require('path');
+const swaggerUiAssetPath = require('swagger-ui-dist').absolutePath();
+const express = require('express');
 
 // Configuration des options Swagger
 const swaggerOptions = {
@@ -13,21 +15,21 @@ const swaggerOptions = {
     },
   },
   apis: [path.join(__dirname, '../routes/*.js')], // Adaptation du chemin selon vos fichiers annotés
-  url: '/swagger.json' // Utilisation directe du fichier JSON pour Swagger
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 // Middleware Swagger
 const swaggerMiddleware = (app) => {
-  // Route pour le JSON Swagger
-  app.get('/swagger.json', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(swaggerDocs);
-  });
+  // Publiez les assets Swagger statiques
+  app.use('/api-docs-static', express.static(swaggerUiAssetPath));
 
-  // Route pour Swagger UI
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+  // Configurez Swagger UI avec les fichiers statiques spécifiques
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
+    customCssUrl: '/api-docs-static/swagger-ui.css',
+    customJsUrl: '/api-docs-static/swagger-ui-bundle.js',
+    customJs2Url: '/api-docs-static/swagger-ui-standalone-preset.js',
+  }));
 };
 
 module.exports = swaggerMiddleware;
