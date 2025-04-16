@@ -35,7 +35,7 @@ connectDB();
   app.set('view engine', 'ejs');
 
 app.use(methodOverride('_method')); // Pour les méthodes PUT et DELETE dans les formulaires
-configureMiddlewares(app, swaggerDocs); // Middleware général venant de config/middlewares
+configureMiddlewares(app); // Middleware général venant de config/middlewares
 app.use(cookieParser()); 
 
 // Routes importées
