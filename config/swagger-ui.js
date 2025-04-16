@@ -11,7 +11,7 @@ const swaggerOptions = {
       description: 'Documentation de mon API',
     },
   },
-  apis: [path.join(__dirname, '../routes/*.js')], // Adapter le chemin selon l'endroit où se trouvent vos routes
+  apis: ['./routes/*.js'], // Adapter le chemin selon l'endroit où se trouvent vos routes
 };
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
