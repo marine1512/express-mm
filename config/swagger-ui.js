@@ -26,9 +26,12 @@ const swaggerMiddleware = (app) => {
 
   // Configurez Swagger UI avec les fichiers statiques spécifiques
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
-    customCssUrl: '/api-docs-static/swagger-ui.css',
-    customJsUrl: '/api-docs-static/swagger-ui-bundle.js',
-    customJs2Url: '/api-docs-static/swagger-ui-standalone-preset.js',
+      customCssUrl:
+        'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.14.0/swagger-ui.css',
+      customJsUrl:
+        'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.14.0/swagger-ui-bundle.js',
+      customJs2Url:
+        'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.14.0/swagger-ui-standalone-preset.js',
   }));
 };
 
